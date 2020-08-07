@@ -21,7 +21,7 @@ function LoginForm(props) {
   const [identifiant, setIdentifiant] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
 
-  const indentifiantInputHandler = (enteredText) => {
+  const identifiantInputHandler = (enteredText) => {
     setIdentifiant(enteredText);
   };
   const motDePasseInputHandler = (enteredText) => {
@@ -39,7 +39,7 @@ function LoginForm(props) {
         <TextInput
           placeholder="identifiant"
           style={styles.input}
-          onChangeText={indentifiantInputHandler}
+          onChangeText={identifiantInputHandler}
           value={identifiant}
         />
       </View>
