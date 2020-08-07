@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 // import { persistReducer } from "redux-persist";
 // import storage from "redux-persist/lib/storage";
-// import planReducer from "./plan/planReducer";
+import transfertReducer from "./reducers/transfertReducer";
 import authReducer from "./reducers/authReducer";
 
 // const persistConfig = {
@@ -11,7 +11,7 @@ import authReducer from "./reducers/authReducer";
 // };
 
 const rootReducer = combineReducers({
-  // plans: planReducer,
+  transfert: transfertReducer,
   auth: authReducer,
 });
 
