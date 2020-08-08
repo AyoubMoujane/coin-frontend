@@ -13,9 +13,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-function authLoading(props) {
-  const { auth } = props;
-  console.log(auth);
+function authLoading({ auth }) {
   return auth ? <HomeStack /> : <AuthStack />;
 }
 

@@ -29,8 +29,6 @@ function LoginForm(props) {
   };
 
   const connexionHandler = () => {
-    console.log(identifiant);
-    console.log(motDePasse);
     props.loginAttempt({ identifiant: identifiant, motDePasse: motDePasse });
   };
   return (

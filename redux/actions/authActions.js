@@ -30,7 +30,6 @@ export const loginAttempt = ({ identifiant, motDePasse }) => {
         dispatch(loginSuccess(response));
       })
       .catch((error) => {
-        // error.message is the error message
         dispatch(loginFailure(error));
       });
   };

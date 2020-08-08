@@ -31,7 +31,7 @@ function paiementEcran(props) {
     console.log(montant);
     props.tentativeTransfert({
       utilisateur: utilisateur.idUtilisateur,
-      destinataire: 2,
+      destinataire: 3,
       montant: montant,
     });
   };
