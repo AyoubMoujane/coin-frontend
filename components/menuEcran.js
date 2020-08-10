@@ -36,6 +36,10 @@ function menuEcran({ navigation, utilisateur, logOut }) {
       <Text>Ecran menu principal</Text>
       <Text>Identifiant : {utilisateur.identifiant}</Text>
       <Text>Solde : {utilisateur.solde}</Text>
+      <Text>Groupe : {utilisateur.libelleGroupe}</Text>
+      <Text>
+        Seuil : {utilisateur.Seuil ? utilisateur.Seuil : "Aucun plafond"}
+      </Text>
 
       <Button title="Consommer" onPress={pressConsommerHandler} />
       <Button title="Offrir" onPress={pressOffrirHandler} />
