@@ -21,6 +21,8 @@ function LoginForm(props) {
   const [identifiant, setIdentifiant] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
 
+  const { navigation } = props;
+
   const identifiantInputHandler = (enteredText) => {
     setIdentifiant(enteredText);
   };
@@ -30,6 +32,10 @@ function LoginForm(props) {
 
   const connexionHandler = () => {
     props.loginAttempt({ identifiant: identifiant, motDePasse: motDePasse });
+  };
+
+  const oublieHandler = () => {
+    navigation.navigate("oublieEcran");
   };
   return (
     <View>
@@ -51,6 +57,7 @@ function LoginForm(props) {
         />
       </View>
       <Button title="Connexion" onPress={connexionHandler} />
+      <Text onPress={oublieHandler}>Mot de passe oublié ?</Text>
     </View>
   );
 }
