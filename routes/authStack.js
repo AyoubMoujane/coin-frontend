@@ -2,14 +2,14 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 
 import LoginForm from "../components/loginForm";
-import FormulaireOublie from "../components/formulaireOublie";
+import ChangerMdp from "../components/ChangerMdp/ChangerMdp";
 
 const ecrans = {
   connexionEcran: {
     screen: LoginForm,
   },
   oublieEcran: {
-    screen: FormulaireOublie,
+    screen: ChangerMdp,
   },
 };
 
