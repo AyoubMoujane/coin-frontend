@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Button } from "react-native";
 import { connect } from "react-redux";
 import { logOut } from "../redux/actions/authActions";
@@ -15,6 +15,42 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 function menuEcran({ navigation, utilisateur, logOut }) {
+  const [solde, setSolde] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [flashMessage, setFlashMessage] = useState("");
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(`http://192.168.1.26:73/utilisateurs/+${utilisateur.idUtilisateur}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(handleErrors)
+      .then((response) => {
+        setIsLoading(false);
+        setSolde(response[0].solde);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  function handleErrors(response) {
+    if (!response.ok) {
+      switch (response.status) {
+        case 401:
+          setFlashMessage("Token expire");
+          throw new Error(404);
+          break;
+        case 500:
+          setFlashMessage("Erreur serveur");
+          throw new Error(500);
+          break;
+      }
+    }
+    return response.json();
+  }
+
   const pressConsommerHandler = () => {
     navigation.navigate("paiementEcran");
   };
@@ -35,7 +71,7 @@ function menuEcran({ navigation, utilisateur, logOut }) {
     <View>
       <Text>Ecran menu principal</Text>
       <Text>Identifiant : {utilisateur.identifiant}</Text>
-      <Text>Solde : {utilisateur.solde}</Text>
+      <Text>Solde : {isLoading ? "Chargement..." : solde}</Text>
       <Text>Groupe : {utilisateur.libelleGroupe}</Text>
       <Text>
         Seuil : {utilisateur.Seuil ? utilisateur.Seuil : "Aucun plafond"}
