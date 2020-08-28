@@ -9,7 +9,6 @@ export default function formulaireCode({ setState, tokenMdp }) {
 
   const codeInputHandler = (enteredText) => {
     setCode(enteredText);
-    console.log(code);
   };
   function handleErrors(response) {
     if (!response.ok) {
@@ -28,24 +27,28 @@ export default function formulaireCode({ setState, tokenMdp }) {
   }
 
   const submitHandler = () => {
-    setIsLoading(true);
-    fetch("http://192.168.1.26:73/utilisateurs/verifier_code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        Auth_mdp: tokenMdp,
-        code: code,
-      }),
-    })
-      .then(handleErrors)
-      .then((response) => {
-        setIsLoading(false);
-        setFlashMessage("Code bon");
-        setState(3);
+    if (code.length !== 6) {
+      setFlashMessage("Entrez le code de 6 chiffres envoyé par mail");
+    } else {
+      setIsLoading(true);
+      fetch("http://192.168.1.26:73/utilisateurs/verifier_code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          Auth_mdp: tokenMdp,
+          code: code,
+        }),
       })
-      .catch((error) => {
-        setIsLoading(false);
-      });
+        .then(handleErrors)
+        .then((response) => {
+          setIsLoading(false);
+          setFlashMessage("Code bon");
+          setState(3);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    }
   };
 
   return (
