@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 
-export default function formulaireOublie({ setState }) {
+export default function formulaireOublie({ setState, setToken }) {
   const [identifiant, setIdentifiant] = useState("");
   const [erreur, setErreur] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +40,7 @@ export default function formulaireOublie({ setState }) {
       .then((response) => {
         setIsLoading(false);
         setFlashMessage("Mail envoyé à l'adresse mail liée au compte");
+        setToken(response.tokenMdp);
         setState(2);
       })
       .catch((error) => {
