@@ -3,7 +3,6 @@ import { View, Text, TextInput, Button } from "react-native";
 
 export default function formulaireOublie({ setState, setToken }) {
   const [identifiant, setIdentifiant] = useState("");
-  const [erreur, setErreur] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
