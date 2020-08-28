@@ -63,6 +63,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
         // style={styles.input}
         onChangeText={mdp1InputHandler}
         value={mdp1}
+        secureTextEntry={true}
       />
       <Text>Retapez le mot de passe</Text>
       <TextInput
@@ -70,6 +71,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
         // style={styles.input}
         onChangeText={mdp2InputHandler}
         value={mdp2}
+        secureTextEntry={true}
       />
       {isLoading ? (
         <Text>Chargement...</Text>
