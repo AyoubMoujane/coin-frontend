@@ -14,7 +14,9 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
     setMdp2(enteredText);
   };
   const submitHandler = () => {
-    verifMdp ? sendPassword() : console.log("Les mdp ne coresspondent pas");
+    verifMdp
+      ? sendPassword()
+      : setFlashMessage("Les mots de passe de correspondent pas");
   };
   const verifMdp = mdp1 === mdp2 ? true : false;
 
@@ -46,9 +48,11 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
     })
       .then(handleErrors)
       .then((response) => {
-        setIsLoading(false);
         setFlashMessage("Mot de passe change avec succes");
-        navigation.navigate("connexionEcran");
+        setTimeout(function () {
+          setIsLoading(false);
+          navigation.navigate("connexionEcran");
+        }, 1000);
       })
       .catch((error) => {
         setIsLoading(false);
