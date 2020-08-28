@@ -21,7 +21,7 @@ function LoginForm(props) {
   const [identifiant, setIdentifiant] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
 
-  const { navigation } = props;
+  const { navigation, isLoading, error } = props;
 
   const identifiantInputHandler = (enteredText) => {
     setIdentifiant(enteredText);
@@ -56,7 +56,12 @@ function LoginForm(props) {
           secureTextEntry={true}
         />
       </View>
-      <Button title="Connexion" onPress={connexionHandler} />
+      {isLoading ? (
+        <Text>Chargement...</Text>
+      ) : (
+        <Button title="Connexion" onPress={connexionHandler} />
+      )}
+      {error ? <Text>{error}</Text> : null}
       <Text onPress={oublieHandler}>Mot de passe oublié ?</Text>
     </View>
   );
