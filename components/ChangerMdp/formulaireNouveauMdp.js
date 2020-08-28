@@ -14,11 +14,16 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
     setMdp2(enteredText);
   };
   const submitHandler = () => {
-    verifMdp
-      ? sendPassword()
+    verifCorrespMdp
+      ? verifLongeurMdp
+        ? sendPassword()
+        : setFlashMessage(
+            "Le nouveau mot de passe doit contenir au moins 6 caractères"
+          )
       : setFlashMessage("Les mots de passe de correspondent pas");
   };
-  const verifMdp = mdp1 === mdp2 ? true : false;
+  const verifCorrespMdp = mdp1 === mdp2 ? true : false;
+  const verifLongeurMdp = mdp1.length >= 6 ? true : false;
 
   function handleErrors(response) {
     if (!response.ok) {
