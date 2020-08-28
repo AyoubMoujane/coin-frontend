@@ -28,24 +28,28 @@ export default function formulaireOublie({ setState, setToken }) {
   }
 
   const submitHandler = () => {
-    setIsLoading(true);
-    fetch("http://192.168.1.26:73/utilisateurs/oublie_mdp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        identifiant: identifiant,
-      }),
-    })
-      .then(handleErrors)
-      .then((response) => {
-        setIsLoading(false);
-        setFlashMessage("Mail envoyé à l'adresse mail liée au compte");
-        setToken(response.tokenMdp);
-        setState(2);
+    if (!identifiant.match(/[a-z].[a-z]/i)) {
+      setFlashMessage("Entrez un identifiant valide (prenom.nom)");
+    } else {
+      setIsLoading(true);
+      fetch("http://192.168.1.26:73/utilisateurs/oublie_mdp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifiant: identifiant,
+        }),
       })
-      .catch((error) => {
-        setIsLoading(false);
-      });
+        .then(handleErrors)
+        .then((response) => {
+          setIsLoading(false);
+          setFlashMessage("Mail envoyé à l'adresse mail liée au compte");
+          setToken(response.tokenMdp);
+          setState(2);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    }
   };
   return (
     <View>
