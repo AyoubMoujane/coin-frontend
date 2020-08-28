@@ -5,7 +5,7 @@ import {
 } from "../types/transfertTypes";
 
 const initialState = {
-  transfertEnCours: false,
+  isLoading: false,
   message: "",
 };
 
@@ -14,16 +14,16 @@ const reducer = (state = initialState, action) => {
     case TRANSFERT_REQUEST:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
     case TRANSFERT_SUCCESS:
       return {
-        loading: false,
+        isLoading: false,
         message: "Transfert reussit",
       };
     case TRANSFERT_FAILURE:
       return {
-        loading: false,
+        isLoading: false,
         message: action.payload.message,
       };
     default:

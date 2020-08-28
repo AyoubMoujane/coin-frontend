@@ -14,7 +14,6 @@ function handleErrors(response) {
 export const tentativeTransfert = ({ montant, utilisateur, destinataire }) => {
   return (dispatch) => {
     dispatch(transfertRequest());
-
     fetch("http://192.168.1.26:73/transactions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
