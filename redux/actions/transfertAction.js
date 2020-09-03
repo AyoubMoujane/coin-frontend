@@ -4,6 +4,8 @@ import {
   TRANSFERT_FAILURE,
 } from "../types/transfertTypes";
 
+import { API_HOST } from "../../environment/dev.env";
+
 function handleErrors(response) {
   if (!response.ok) {
     throw new Error("Echec du transfert");
@@ -14,7 +16,7 @@ function handleErrors(response) {
 export const tentativeTransfert = ({ montant, utilisateur, destinataire }) => {
   return (dispatch) => {
     dispatch(transfertRequest());
-    fetch("http://192.168.1.26:73/transactions", {
+    fetch(`http://${API_HOST}/transactions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

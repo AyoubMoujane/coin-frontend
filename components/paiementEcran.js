@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 
 import { tentativeTransfert } from "../redux/actions/transfertAction";
 
+import { API_HOST } from "../environment/dev.env";
+
 const mapStateToProps = (state) => {
   return {
     utilisateur: state.auth.user,
@@ -37,7 +39,7 @@ function paiementEcran({ utilisateur, navigation }) {
 
   const transfertHandler = () => {
     setIsLoading(true);
-    fetch("http://192.168.1.26:73/transactions", {
+    fetch(`http://${API_HOST}/transactions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

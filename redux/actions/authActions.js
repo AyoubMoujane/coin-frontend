@@ -6,6 +6,8 @@ import {
   LOGOUT,
 } from "../types/authTypes";
 
+import { API_HOST } from "../../environment/dev.env";
+
 function handleErrors(response) {
   if (!response.ok) {
     throw new Error("Echec authentification");
@@ -17,7 +19,7 @@ export const loginAttempt = ({ identifiant, motDePasse }) => {
   return (dispatch) => {
     dispatch(loginRequest());
 
-    fetch("http://192.168.1.26:73/utilisateurs/connexion", {
+    fetch(`http://${API_HOST}/utilisateurs/connexion`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

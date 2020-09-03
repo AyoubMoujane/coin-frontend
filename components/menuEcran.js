@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Button } from "react-native";
 import { connect } from "react-redux";
 import { logOut } from "../redux/actions/authActions";
+import { API_HOST } from "../environment/dev.env";
 
 const mapStateToProps = (state) => {
   return {
@@ -21,7 +22,7 @@ function menuEcran({ navigation, utilisateur, logOut }) {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`http://192.168.1.26:73/utilisateurs/+${utilisateur.idUtilisateur}`, {
+    fetch(`http://${API_HOST}/utilisateurs/+${utilisateur.idUtilisateur}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })

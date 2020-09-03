@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { connect } from "react-redux";
+import { API_HOST } from "../environment/dev.env";
 
 const mapStateToProps = (state) => {
   return {
@@ -14,7 +15,7 @@ function recapEcran({ utilisateur }) {
   const [transactions, setTransactions] = useState([]);
   useEffect(() => {
     fetch(
-      `http://192.168.1.26:73/transactions/auteur/${utilisateur.idUtilisateur}`,
+      `http://${API_HOST}/transactions/auteur/${utilisateur.idUtilisateur}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

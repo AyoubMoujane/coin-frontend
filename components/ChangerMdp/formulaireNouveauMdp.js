@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
+import { API_HOST } from "../../environment/dev.env";
 
 export default function formulaireOublie({ tokenMdp, navigation }) {
   const [mdp1, setMdp1] = useState("");
@@ -43,7 +44,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
 
   const sendPassword = () => {
     setIsLoading(true);
-    fetch("http://192.168.1.26:73/utilisateurs/changer_mdp", {
+    fetch(`http://${API_HOST}/utilisateurs/changer_mdp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

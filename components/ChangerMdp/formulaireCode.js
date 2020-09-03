@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
+import { API_HOST } from "../../environment/dev.env";
 
 export default function formulaireCode({ setState, tokenMdp }) {
   const [code, setCode] = useState("");
@@ -30,7 +31,7 @@ export default function formulaireCode({ setState, tokenMdp }) {
       setFlashMessage("Entrez le code de 6 chiffres envoyé par mail");
     } else {
       setIsLoading(true);
-      fetch("http://192.168.1.26:73/utilisateurs/verifier_code", {
+      fetch(`http://${API_HOST}/utilisateurs/verifier_code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
