@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { connect } from "react-redux";
 import { API_HOST } from "../environment/dev.env";
+import moment from "moment";
 
 const mapStateToProps = (state) => {
   return {
@@ -25,8 +26,10 @@ function recapEcran({ utilisateur }) {
       .then(
         (result) => {
           setIsLoaded(true);
-          console.log(result);
-          setTransactions(result);
+          const sortedResults = result.sort(
+            (a, b) => a.Date_creation < b.Date_creation
+          );
+          setTransactions(sortedResults);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -48,7 +51,8 @@ function recapEcran({ utilisateur }) {
         {transactions.map((transaction) => (
           <Text key={transaction.idTransaction}>
             {transaction.identifiantAuteur} -- {transaction.Montant} --D{" "}
-            {transaction.identifiantDestinataire}
+            {transaction.identifiantDestinataire}{" "}
+            {moment(transaction.Date_creation).format("llll")}
           </Text>
         ))}
       </View>
