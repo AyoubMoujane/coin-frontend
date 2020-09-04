@@ -5,6 +5,7 @@ import menuEcran from "../components/menuEcran";
 import paiementEcran from "../components/paiementEcran";
 import offreEcran from "../components/offreEcran";
 import recapEcran from "../components/recapEcran";
+import menuAdmin from "../components/adminComponents/menuAdmin";
 
 const ecrans = {
   menuEcran: {
@@ -18,6 +19,9 @@ const ecrans = {
   },
   recapEcran: {
     screen: recapEcran,
+  },
+  menuAdmin: {
+    screen: menuAdmin,
   },
 };
 
