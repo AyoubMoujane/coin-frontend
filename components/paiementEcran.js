@@ -39,29 +39,33 @@ function paiementEcran({ utilisateur, navigation }) {
   }
 
   const transfertHandler = () => {
-    setIsLoading(true);
-    fetch(`http://${API_HOST}/transactions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        Montant: montant,
-        Auteur: utilisateur.idUtilisateur,
-        Destinataire: 3,
-      }),
-    })
-      .then(handleErrors)
-      .then((response) => {
-        setIsLoading(false);
-        setFlashMessage("Paiement effectué");
-        setIsPaymentSuccess(true);
-        setTimeout(function () {
-          navigation.navigate("menuEcran");
-        }, 1000);
+    if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
+      setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
+    } else {
+      setIsLoading(true);
+      fetch(`http://${API_HOST}/transactions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          Montant: montant,
+          Auteur: utilisateur.idUtilisateur,
+          Destinataire: 3,
+        }),
       })
-      .catch((error) => {
-        // error.message is the error message
-        setIsLoading(false);
-      });
+        .then(handleErrors)
+        .then((response) => {
+          setIsLoading(false);
+          setFlashMessage("Paiement effectué");
+          setIsPaymentSuccess(true);
+          setTimeout(function () {
+            navigation.navigate("menuEcran");
+          }, 1000);
+        })
+        .catch((error) => {
+          // error.message is the error message
+          setIsLoading(false);
+        });
+    }
   };
 
   return (
