@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { API_HOST } from "../environment/dev.env";
 import moment from "moment";
