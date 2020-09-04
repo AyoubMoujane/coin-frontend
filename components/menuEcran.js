@@ -10,6 +10,7 @@ import {
 import { connect } from "react-redux";
 import { logOut } from "../redux/actions/authActions";
 import { API_HOST } from "../environment/dev.env";
+import menuAdmin from "./adminComponents/menuAdmin";
 
 const mapStateToProps = (state) => {
   return {
@@ -67,6 +68,8 @@ function menuEcran({ navigation, utilisateur, logOut }) {
       });
   };
 
+  const getDernieresTransactions = () => {};
+
   function handleErrors(response) {
     if (!response.ok) {
       switch (response.status) {
@@ -94,6 +97,9 @@ function menuEcran({ navigation, utilisateur, logOut }) {
   const pressRecapHandler = () => {
     navigation.navigate("recapEcran");
   };
+  const pressAdminHandler = () => {
+    navigation.navigate("menuAdmin");
+  };
 
   const pressDeconnexionHandler = () => {
     logOut();
@@ -110,14 +116,21 @@ function menuEcran({ navigation, utilisateur, logOut }) {
         <Text>Ecran menu principal</Text>
         <Text>Identifiant : {utilisateur.identifiant}</Text>
         <Text>Solde : {isLoading ? "Chargement..." : solde}</Text>
-        <Text>Groupe : {utilisateur.libelleGroupe}</Text>
-        <Text>
-          Seuil : {utilisateur.Seuil ? utilisateur.Seuil : "Aucun plafond"}
-        </Text>
 
-        <Button title="Consommer" onPress={pressConsommerHandler} />
-        <Button title="Offrir" onPress={pressOffrirHandler} />
-        <Button title="Recapitulatif" onPress={pressRecapHandler} />
+        {utilisateur.estAdmin ? (
+          <Button title="D" onPress={pressAdminHandler} />
+        ) : (
+          <View>
+            <Text>Groupe : {utilisateur.libelleGroupe}</Text>
+            <Text>
+              Seuil : {utilisateur.Seuil ? utilisateur.Seuil : "Aucun plafond"}
+            </Text>
+            <Button title="Consommer" onPress={pressConsommerHandler} />
+            <Button title="Offrir" onPress={pressOffrirHandler} />
+            <Button title="Recapitulatif" onPress={pressRecapHandler} />
+          </View>
+        )}
+
         <Button title="Deconnexion" onPress={pressDeconnexionHandler} />
       </View>
     </ScrollView>
