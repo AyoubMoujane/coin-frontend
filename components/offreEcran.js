@@ -97,28 +97,32 @@ function offreEcran({ utilisateur, navigation }) {
   };
 
   const transfertHandler = () => {
-    setIsLoadingPaiement(true);
-    fetch(`http://${API_HOST}/transactions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        Montant: montant,
-        Auteur: utilisateur.idUtilisateur,
-        Destinataire: selectedUtilisateur,
-      }),
-    })
-      .then(handleErrors)
-      .then((response) => {
-        setIsLoadingPaiement(false);
-        setFlashMessage("Paiement effectué");
-        setIsPaymentSuccess(true);
-        setTimeout(function () {
-          navigation.navigate("menuEcran");
-        }, 1000);
+    if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
+      setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
+    } else {
+      setIsLoadingPaiement(true);
+      fetch(`http://${API_HOST}/transactions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          Montant: montant,
+          Auteur: utilisateur.idUtilisateur,
+          Destinataire: selectedUtilisateur,
+        }),
       })
-      .catch((error) => {
-        setIsLoadingPaiement(false);
-      });
+        .then(handleErrors)
+        .then((response) => {
+          setIsLoadingPaiement(false);
+          setFlashMessage("Paiement effectué");
+          setIsPaymentSuccess(true);
+          setTimeout(function () {
+            navigation.navigate("menuEcran");
+          }, 1000);
+        })
+        .catch((error) => {
+          setIsLoadingPaiement(false);
+        });
+    }
   };
 
   function handleErrors(response) {
@@ -165,8 +169,8 @@ function offreEcran({ utilisateur, navigation }) {
           selectedValue={selectedUtilisateur}
           onValueChange={(itemValue, key) => setSelectedUtilisateur(itemValue)}
         >
-          {utilisateurs.map((utilisateur, index) =>
-            selectedGroupe === 0 ? (
+          {utilisateurs.map((utilisateur, index) => {
+            return selectedGroupe === 0 ? (
               <Picker.Item
                 key={index}
                 label={utilisateur.identifiant}
@@ -178,8 +182,8 @@ function offreEcran({ utilisateur, navigation }) {
                 label={utilisateur.identifiant}
                 value={utilisateur.idUtilisateur}
               />
-            ) : null
-          )}
+            ) : null;
+          })}
         </Picker>
       )}
 
