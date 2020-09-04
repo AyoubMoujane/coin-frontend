@@ -16,6 +16,7 @@ function paiementEcran({ utilisateur, navigation }) {
   const [montant, setMontant] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
+  const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
   const montantInputHandler = (montant) => {
     setMontant(montant);
@@ -52,6 +53,7 @@ function paiementEcran({ utilisateur, navigation }) {
       .then((response) => {
         setIsLoading(false);
         setFlashMessage("Paiement effectué");
+        setIsPaymentSuccess(true);
         setTimeout(function () {
           navigation.navigate("menuEcran");
         }, 1000);
@@ -72,7 +74,11 @@ function paiementEcran({ utilisateur, navigation }) {
       {isLoading ? (
         <Text>Chargement...</Text>
       ) : (
-        <Button title="Payer" onPress={transfertHandler} />
+        <Button
+          title="Payer"
+          disabled={isPaymentSuccess}
+          onPress={transfertHandler}
+        />
       )}
       {flashMessage ? <Text>{flashMessage}</Text> : null}
     </View>
