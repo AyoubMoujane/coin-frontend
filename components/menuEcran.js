@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { logOut } from "../redux/actions/authActions";
 import { API_HOST } from "../environment/dev.env";
 import menuAdmin from "./adminComponents/menuAdmin";
+import moment from "moment";
 
 const mapStateToProps = (state) => {
   return {
@@ -25,7 +26,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // Pour le rafraichissement
-
 const wait = (timeout) => {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
@@ -36,25 +36,28 @@ function menuEcran({ navigation, utilisateur, logOut }) {
   const [solde, setSolde] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
+  const [transactions, setTransactions] = useState([]);
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
 
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-
     wait(500).then(() => {
       getSolde();
+      utilisateur.estAdmin ? getDernieresTransactions(10) : null;
       setRefreshing(false);
     });
   }, []);
 
   useEffect(() => {
     getSolde();
+    utilisateur.estAdmin ? getDernieresTransactions(10) : null;
   }, []);
 
   const getSolde = () => {
     setIsLoading(true);
-    fetch(`http://${API_HOST}/utilisateurs/+${utilisateur.idUtilisateur}`, {
+    fetch(`http://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -68,7 +71,28 @@ function menuEcran({ navigation, utilisateur, logOut }) {
       });
   };
 
-  const getDernieresTransactions = () => {};
+  const getDernieresTransactions = (nombreDeTransactions) => {
+    return new Promise((resolve, reject) => {
+      setIsLoadingTransactions(true);
+      fetch(
+        `http://${API_HOST}/transactions/destinataire/${3}?nombreDeTransactions=${nombreDeTransactions}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+        .then(handleErrors)
+        .then((response) => {
+          setIsLoadingTransactions(false);
+          setTransactions(response);
+          resolve();
+        })
+        .catch((error) => {
+          setIsLoadingTransactions(false);
+          reject();
+        });
+    });
+  };
 
   function handleErrors(response) {
     if (!response.ok) {
@@ -132,6 +156,24 @@ function menuEcran({ navigation, utilisateur, logOut }) {
         )}
 
         <Button title="Deconnexion" onPress={pressDeconnexionHandler} />
+        {utilisateur.estAdmin ? (
+          isLoadingTransactions ? (
+            <Text>Chargement des transactions...</Text>
+          ) : (
+            <View>
+              <Text>Dernieres transactions</Text>
+              <ScrollView>
+                {transactions.map((transaction) => (
+                  <Text key={transaction.idTransaction}>
+                    {transaction.identifiantAuteur} -- {transaction.Montant} --D{" "}
+                    {transaction.identifiantDestinataire}{" "}
+                    {moment(transaction.Date_creation).format("llll")}
+                  </Text>
+                ))}
+              </ScrollView>
+            </View>
+          )
+        ) : null}
       </View>
     </ScrollView>
   );
