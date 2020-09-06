@@ -38,38 +38,66 @@ function LoginForm(props) {
     navigation.navigate("oublieEcran");
   };
   return (
-    <View>
-      <View>
-        <TextInput
-          placeholder="identifiant"
-          style={styles.input}
-          onChangeText={identifiantInputHandler}
-          value={identifiant}
-        />
+    <View style={{ flex: 1 }}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Le coin des gourmandises</Text>
       </View>
-      <View>
-        <TextInput
-          placeholder="mot de passe"
-          style={styles.input}
-          onChangeText={motDePasseInputHandler}
-          value={motDePasse}
-          secureTextEntry={true}
+      <View style={styles.container}>
+        <View>
+          <TextInput
+            placeholder="Identifiant"
+            style={styles.input}
+            onChangeText={identifiantInputHandler}
+            value={identifiant}
+          />
+        </View>
+        <View>
+          <TextInput
+            placeholder="Mot de passe"
+            style={styles.input}
+            onChangeText={motDePasseInputHandler}
+            value={motDePasse}
+            secureTextEntry={true}
+          />
+        </View>
+
+        <Button
+          title={isLoading ? "Chargement" : "Connexion"}
+          onPress={connexionHandler}
+          style={styles.button}
+          disabled={isLoading}
         />
+
+        {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
+        <Text onPress={oublieHandler}>Mot de passe oublié ?</Text>
       </View>
-      {isLoading ? (
-        <Text>Chargement...</Text>
-      ) : (
-        <Button title="Connexion" onPress={connexionHandler} />
-      )}
-      {error ? <Text>{error}</Text> : null}
-      <Text onPress={oublieHandler}>Mot de passe oublié ?</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  input: {},
+  container: { flex: 3, alignItems: "center" },
+  titleContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    borderColor: "blue",
+    borderWidth: 1,
+    width: 200,
+    height: 30,
+    marginBottom: 10,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+  },
+  title: {
+    color: "blue",
+    fontSize: 30,
+  },
+  errorMessage: {
+    color: "red",
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

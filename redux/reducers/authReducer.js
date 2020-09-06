@@ -18,6 +18,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        error: "",
       };
     case LOGIN_SUCCESS:
       return {
