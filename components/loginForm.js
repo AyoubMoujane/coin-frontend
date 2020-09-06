@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    borderColor: "blue",
-    borderWidth: 1,
+    borderColor: "grey",
+    borderWidth: 2,
     width: 200,
     height: 30,
     marginBottom: 10,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   title: {
-    color: "blue",
+    color: "black",
     fontSize: 30,
   },
   errorMessage: {

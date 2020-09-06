@@ -116,7 +116,7 @@ function offreEcran({ utilisateur, navigation }) {
           setFlashMessage("Paiement effectué");
           setIsPaymentSuccess(true);
           setTimeout(function () {
-            navigation.navigate("menuEcran");
+            navigation.navigate("menuUtilisateurEcran");
           }, 1000);
         })
         .catch((error) => {

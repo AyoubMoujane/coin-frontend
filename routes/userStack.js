@@ -1,15 +1,15 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 
-import menuEcran from "../components/menuEcran";
+import menuUtilisateurEcran from "../components/menuUtilisateurEcran";
 import paiementEcran from "../components/paiementEcran";
 import offreEcran from "../components/offreEcran";
 import recapEcran from "../components/recapEcran";
-import menuAdmin from "../components/adminComponents/menuAdmin";
+import menuAdmin from "../components/adminComponents/menuAdminEcran";
 
 const ecrans = {
-  menuEcran: {
-    screen: menuEcran,
+  menuUtilisateurEcran: {
+    screen: menuUtilisateurEcran,
   },
   paiementEcran: {
     screen: paiementEcran,
@@ -19,9 +19,6 @@ const ecrans = {
   },
   recapEcran: {
     screen: recapEcran,
-  },
-  menuAdmin: {
-    screen: menuAdmin,
   },
 };
 

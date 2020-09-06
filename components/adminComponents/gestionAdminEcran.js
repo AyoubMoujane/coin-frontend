@@ -18,7 +18,7 @@ function handleErrors(response) {
   return response.json();
 }
 
-export default function menuAdmin() {
+export default function gestionAdminEcran() {
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
   const [utilisateurs, setUtilisateurs] = useState([]);

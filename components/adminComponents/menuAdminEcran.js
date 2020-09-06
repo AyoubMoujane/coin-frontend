@@ -7,11 +7,10 @@ import {
   RefreshControl,
   StyleSheet,
 } from "react-native";
+import { API_HOST } from "../../environment/dev.env";
 import { connect } from "react-redux";
-import { logOut } from "../redux/actions/authActions";
-import { API_HOST } from "../environment/dev.env";
-import menuAdmin from "./adminComponents/menuAdmin";
 import moment from "moment";
+import { logOut } from "../../redux/actions/authActions";
 
 const mapStateToProps = (state) => {
   return {
@@ -25,14 +24,13 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-// Pour le rafraichissement
 const wait = (timeout) => {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
 };
 
-function menuEcran({ navigation, utilisateur, logOut }) {
+function menuAdminEcran({ navigation, utilisateur, logOut }) {
   const [solde, setSolde] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
@@ -70,6 +68,25 @@ function menuEcran({ navigation, utilisateur, logOut }) {
         setIsLoading(false);
       });
   };
+  function handleErrors(response) {
+    if (!response.ok) {
+      switch (response.status) {
+        case 401:
+          setFlashMessage("Token expire");
+          throw new Error(404);
+          break;
+        case 500:
+          setFlashMessage("Erreur serveur");
+          throw new Error(500);
+          break;
+      }
+    }
+    return response.json();
+  }
+
+  const pressAdminHandler = () => {
+    navigation.navigate("gestionAdminEcran");
+  };
 
   const getDernieresTransactions = (nombreDeTransactions) => {
     return new Promise((resolve, reject) => {
@@ -94,41 +111,9 @@ function menuEcran({ navigation, utilisateur, logOut }) {
     });
   };
 
-  function handleErrors(response) {
-    if (!response.ok) {
-      switch (response.status) {
-        case 401:
-          setFlashMessage("Token expire");
-          throw new Error(404);
-          break;
-        case 500:
-          setFlashMessage("Erreur serveur");
-          throw new Error(500);
-          break;
-      }
-    }
-    return response.json();
-  }
-
-  const pressConsommerHandler = () => {
-    navigation.navigate("paiementEcran");
-  };
-
-  const pressOffrirHandler = () => {
-    navigation.navigate("offreEcran");
-  };
-
-  const pressRecapHandler = () => {
-    navigation.navigate("recapEcran");
-  };
-  const pressAdminHandler = () => {
-    navigation.navigate("menuAdmin");
-  };
-
   const pressDeconnexionHandler = () => {
     logOut();
   };
-
   return (
     <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -140,22 +125,6 @@ function menuEcran({ navigation, utilisateur, logOut }) {
         <Text>Ecran menu principal</Text>
         <Text>Identifiant : {utilisateur.identifiant}</Text>
         <Text>Solde : {isLoading ? "Chargement..." : solde}</Text>
-
-        {utilisateur.estAdmin ? (
-          <Button title="D" onPress={pressAdminHandler} />
-        ) : (
-          <View>
-            <Text>Groupe : {utilisateur.libelleGroupe}</Text>
-            <Text>
-              Seuil : {utilisateur.Seuil ? utilisateur.Seuil : "Aucun plafond"}
-            </Text>
-            <Button title="Consommer" onPress={pressConsommerHandler} />
-            <Button title="Offrir" onPress={pressOffrirHandler} />
-            <Button title="Recapitulatif" onPress={pressRecapHandler} />
-          </View>
-        )}
-
-        <Button title="Deconnexion" onPress={pressDeconnexionHandler} />
         {utilisateur.estAdmin ? (
           isLoadingTransactions ? (
             <Text>Chargement des transactions...</Text>
@@ -174,6 +143,8 @@ function menuEcran({ navigation, utilisateur, logOut }) {
             </View>
           )
         ) : null}
+        <Button title="D" onPress={pressAdminHandler} />
+        <Button title="Deconnexion" onPress={pressDeconnexionHandler} />
       </View>
     </ScrollView>
   );
@@ -182,8 +153,7 @@ function menuEcran({ navigation, utilisateur, logOut }) {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    alignItems: "center",
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(menuEcran);
+export default connect(mapStateToProps, mapDispatchToProps)(menuAdminEcran);
