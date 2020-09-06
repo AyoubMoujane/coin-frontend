@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 
 import { tentativeTransfert } from "../redux/actions/transfertAction";
@@ -69,11 +69,12 @@ function paiementEcran({ utilisateur, navigation }) {
   };
 
   return (
-    <View>
-      <Text>Entrer la somme à payer:</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Entrez le coût:</Text>
       <TextInput
         keyboardType="numeric"
         onChangeText={(montant) => montantInputHandler(montant)}
+        style={styles.input}
       />
       {isLoading ? (
         <Text>Chargement...</Text>
@@ -84,9 +85,32 @@ function paiementEcran({ utilisateur, navigation }) {
           onPress={transfertHandler}
         />
       )}
-      {flashMessage ? <Text>{flashMessage}</Text> : null}
+      {flashMessage ? (
+        <Text style={styles.errorMessage}>{flashMessage}</Text>
+      ) : null}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  input: {
+    borderColor: "grey",
+    borderWidth: 2,
+    width: 200,
+    height: 30,
+    marginBottom: 10,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+  },
+  title: {
+    color: "black",
+    fontSize: 30,
+    marginBottom: 20,
+  },
+  errorMessage: {
+    color: "red",
+  },
+});
 
 export default connect(mapStateToProps)(paiementEcran);
