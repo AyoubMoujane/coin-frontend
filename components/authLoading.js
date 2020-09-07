@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { connect } from "react-redux";
 
 import HomeStack from "../routes/userStack";
@@ -17,11 +17,5 @@ const mapStateToProps = (state) => {
 function authLoading({ auth }) {
   return auth ? auth.estAdmin ? <AdminStack /> : <HomeStack /> : <AuthStack />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 50,
-  },
-});
 
 export default connect(mapStateToProps)(authLoading);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { API_HOST } from "../../environment/dev.env";
 
 export default function formulaireOublie({ tokenMdp, navigation }) {
@@ -7,6 +7,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
   const [mdp2, setMdp2] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const mdp1InputHandler = (enteredText) => {
     setMdp1(enteredText);
@@ -15,6 +16,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
     setMdp2(enteredText);
   };
   const submitHandler = () => {
+    setFlashMessage("");
     verifCorrespMdp
       ? verifLongeurMdp
         ? sendPassword()
@@ -54,7 +56,8 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
     })
       .then(handleErrors)
       .then((response) => {
-        setFlashMessage("Mot de passe change avec succes");
+        setSuccess(true);
+        setFlashMessage("Mot de passe change avec succès");
         setTimeout(function () {
           setIsLoading(false);
           navigation.navigate("connexionEcran");
@@ -66,29 +69,51 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
   };
 
   return (
-    <View>
-      <Text>Nouveau mot de passe</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Nouveau mot de passe</Text>
       <TextInput
         placeholder="Mot de passe"
-        // style={styles.input}
+        style={styles.input}
         onChangeText={mdp1InputHandler}
         value={mdp1}
         secureTextEntry={true}
       />
-      <Text>Retapez le mot de passe</Text>
+      <Text style={styles.title}>Retapez le mot de passe</Text>
       <TextInput
         placeholder="Retapez le mot de passe"
-        // style={styles.input}
+        style={styles.input}
         onChangeText={mdp2InputHandler}
         value={mdp2}
         secureTextEntry={true}
       />
-      {isLoading ? (
-        <Text>Chargement...</Text>
-      ) : (
-        <Button title="Envoyer" onPress={submitHandler} />
-      )}
-      {flashMessage ? <Text>{flashMessage}</Text> : null}
+
+      <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
+      {flashMessage ? (
+        <Text style={styles.errorMessage}>{flashMessage}</Text>
+      ) : null}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { paddingTop: "40%" },
+  input: {
+    borderColor: "grey",
+    borderWidth: 2,
+    width: 200,
+    height: 30,
+    marginBottom: 10,
+    borderRadius: 8,
+    alignSelf: "center",
+    paddingHorizontal: 10,
+  },
+  title: {
+    color: "black",
+    fontSize: 30,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  errorMessage: {
+    textAlign: "center",
+  },
+});

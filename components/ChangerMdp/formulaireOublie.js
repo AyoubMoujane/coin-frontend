@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { API_HOST } from "../../environment/dev.env";
 
 export default function formulaireOublie({ setState, setToken }) {
@@ -28,6 +28,7 @@ export default function formulaireOublie({ setState, setToken }) {
   }
 
   const submitHandler = () => {
+    setFlashMessage("");
     if (!identifiant.match(/[a-z].[a-z]/i)) {
       setFlashMessage("Entrez un identifiant valide (prenom.nom)");
     } else {
@@ -52,20 +53,44 @@ export default function formulaireOublie({ setState, setToken }) {
     }
   };
   return (
-    <View>
-      <Text>Entrez votre identifiant pour recevoir un mail</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Entrez votre identifiant</Text>
       <TextInput
         placeholder="Identifiant"
-        // style={styles.input}
+        style={styles.input}
         onChangeText={identifiantInputHandler}
         value={identifiant}
       />
-      {isLoading ? (
-        <Text>Chargement...</Text>
-      ) : (
-        <Button title="Envoyer" onPress={submitHandler} />
-      )}
-      {flashMessage ? <Text>{flashMessage}</Text> : null}
+
+      <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
+
+      <Text style={styles.errorMessage}>{flashMessage}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+  input: {
+    borderColor: "grey",
+    borderWidth: 2,
+    width: 200,
+    height: 30,
+    marginBottom: 10,
+    borderRadius: 8,
+    // paddingHorizontal: 10,
+    alignSelf: "center",
+    paddingHorizontal: 10,
+  },
+  title: {
+    color: "black",
+    fontSize: 30,
+    marginBottom: 20,
+    textAlign: "center",
+    paddingTop: "40%",
+  },
+  errorMessage: {
+    color: "red",
+    textAlign: "center",
+  },
+});
