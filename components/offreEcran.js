@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, TextInput } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-community/picker";
 import { connect } from "react-redux";
 import { API_HOST } from "../environment/dev.env";
@@ -44,7 +44,7 @@ function offreEcran({ utilisateur, navigation }) {
     Promise.all([fetchGroupes(), fetchUtilisateurs()])
       .then(() => {
         setIsLoading(false);
-        setFlashMessage("Vous pouvez selectionner une personne");
+        setFlashMessage("");
       })
       .catch((err) => {
         setIsLoading(false);
@@ -97,6 +97,7 @@ function offreEcran({ utilisateur, navigation }) {
   };
 
   const transfertHandler = () => {
+    setFlashMessage("");
     if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
     } else {
@@ -142,69 +143,101 @@ function offreEcran({ utilisateur, navigation }) {
   }
 
   return (
-    <View>
-      <Text>Ecran d'offre d'argent</Text>
+    <View style={styles.container0}>
+      <View style={styles.container1}>
+        <Text style={styles.title}>Groupe</Text>
 
-      {isLoading ? (
-        <Text> Chargement des groupes... </Text>
-      ) : (
-        <Picker
-          selectedValue={selectedGroupe}
-          onValueChange={(itemValue, key) => setSelectedGroupe(itemValue)}
-        >
-          {groupes.map((groupe) => (
-            <Picker.Item
-              key={groupe.idGroupe}
-              label={groupe.libelleGroupe}
-              value={groupe.idGroupe}
-            />
-          ))}
-        </Picker>
-      )}
-
-      {isLoading ? (
-        <Text> Chargement des utilisateurs... </Text>
-      ) : (
-        <Picker
-          selectedValue={selectedUtilisateur}
-          onValueChange={(itemValue, key) => setSelectedUtilisateur(itemValue)}
-        >
-          {utilisateurs.map((utilisateur, index) => {
-            return selectedGroupe === 0 ? (
+        {isLoading ? (
+          <Text> Chargement des groupes... </Text>
+        ) : (
+          <Picker
+            selectedValue={selectedGroupe}
+            onValueChange={(itemValue, key) => setSelectedGroupe(itemValue)}
+          >
+            {groupes.map((groupe) => (
               <Picker.Item
-                key={index}
-                label={utilisateur.identifiant}
-                value={utilisateur.idUtilisateur}
+                key={groupe.idGroupe}
+                label={groupe.libelleGroupe}
+                value={groupe.idGroupe}
               />
-            ) : utilisateur.groupeFK === selectedGroupe ? (
-              <Picker.Item
-                key={index}
-                label={utilisateur.identifiant}
-                value={utilisateur.idUtilisateur}
-              />
-            ) : null;
-          })}
-        </Picker>
-      )}
+            ))}
+          </Picker>
+        )}
 
-      <TextInput
-        keyboardType="numeric"
-        onChangeText={(montant) => montantInputHandler(montant)}
-      />
+        <Text style={styles.title}>Utilisateur</Text>
 
-      {isLoadingPaiement ? (
-        <Text>Chargement...</Text>
-      ) : (
+        {isLoading ? (
+          <Text> Chargement des utilisateurs... </Text>
+        ) : (
+          <Picker
+            selectedValue={selectedUtilisateur}
+            onValueChange={(itemValue, key) =>
+              setSelectedUtilisateur(itemValue)
+            }
+          >
+            {utilisateurs.map((utilisateur, index) => {
+              return selectedGroupe === 0 ? (
+                <Picker.Item
+                  key={index}
+                  label={utilisateur.identifiant}
+                  value={utilisateur.idUtilisateur}
+                />
+              ) : utilisateur.groupeFK === selectedGroupe ? (
+                <Picker.Item
+                  key={index}
+                  label={utilisateur.identifiant}
+                  value={utilisateur.idUtilisateur}
+                />
+              ) : null;
+            })}
+          </Picker>
+        )}
+      </View>
+      <View style={styles.container2}>
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          onChangeText={(montant) => montantInputHandler(montant)}
+        />
+
         <Button
           title="Payer"
-          disabled={isPaymentSuccess}
+          disabled={isLoading || isPaymentSuccess}
           onPress={() => transfertHandler()}
         />
-      )}
 
-      {flashMessage ? <Text>{flashMessage}</Text> : null}
+        {flashMessage ? (
+          <Text style={styles.flashMessage}>{flashMessage}</Text>
+        ) : null}
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container0: { flex: 1 },
+  container1: { flex: 3, justifyContent: "center" },
+  container2: { flex: 1, alignItems: "center" },
+
+  input: {
+    borderColor: "grey",
+    borderWidth: 2,
+    width: 200,
+    height: 30,
+    marginBottom: 10,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    alignSelf: "center",
+  },
+  title: {
+    color: "black",
+    fontSize: 30,
+    textAlign: "center",
+  },
+  flashMessage: {
+    // color: "red",
+    textAlign: "center",
+  },
+});
 
 export default connect(mapStateToProps)(offreEcran);

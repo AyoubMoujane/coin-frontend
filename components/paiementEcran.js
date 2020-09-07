@@ -70,21 +70,19 @@ function paiementEcran({ utilisateur, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Entrez le coût:</Text>
+      <Text style={styles.title}>Entrez le coût</Text>
       <TextInput
         keyboardType="numeric"
         onChangeText={(montant) => montantInputHandler(montant)}
         style={styles.input}
       />
-      {isLoading ? (
-        <Text>Chargement...</Text>
-      ) : (
-        <Button
-          title="Payer"
-          disabled={isPaymentSuccess}
-          onPress={transfertHandler}
-        />
-      )}
+
+      <Button
+        title="Payer"
+        disabled={isPaymentSuccess || isLoading}
+        onPress={transfertHandler}
+      />
+
       {flashMessage ? <Text>{flashMessage}</Text> : null}
     </View>
   );
