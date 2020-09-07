@@ -11,6 +11,9 @@ import { API_HOST } from "../../environment/dev.env";
 import { connect } from "react-redux";
 import moment from "moment";
 import { logOut } from "../../redux/actions/authActions";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 const mapStateToProps = (state) => {
   return {
@@ -43,14 +46,14 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
     setRefreshing(true);
     wait(500).then(() => {
       getSolde();
-      utilisateur.estAdmin ? getDernieresTransactions(10) : null;
+      utilisateur.estAdmin ? getDernieresTransactions(30) : null;
       setRefreshing(false);
     });
   }, []);
 
   useEffect(() => {
     getSolde();
-    utilisateur.estAdmin ? getDernieresTransactions(10) : null;
+    utilisateur.estAdmin ? getDernieresTransactions(30) : null;
   }, []);
 
   const getSolde = () => {
@@ -121,30 +124,47 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <View>
-        <Text>Ecran menu principal</Text>
-        <Text>Identifiant : {utilisateur.identifiant}</Text>
-        <Text>Solde : {isLoading ? "Chargement..." : solde}</Text>
-        {utilisateur.estAdmin ? (
-          isLoadingTransactions ? (
-            <Text>Chargement des transactions...</Text>
-          ) : (
-            <View>
-              <Text>Dernieres transactions</Text>
-              <ScrollView>
-                {transactions.map((transaction) => (
-                  <Text key={transaction.idTransaction}>
-                    {transaction.identifiantAuteur} -- {transaction.Montant} --D{" "}
-                    {transaction.identifiantDestinataire}{" "}
+      <View style={styles.container1}>
+        <MaterialCommunityIcons
+          name="account"
+          size={36}
+          color="black"
+          onPress={pressAdminHandler}
+        />
+        <AntDesign
+          name="logout"
+          size={36}
+          color="black"
+          onPress={pressDeconnexionHandler}
+        />
+      </View>
+      <View style={styles.container2}>
+        <Text style={styles.titre}>Caisse</Text>
+        <Text style={styles.solde}>{isLoading ? "..." : solde} €</Text>
+      </View>
+      <View style={styles.container3}>
+        {isLoadingTransactions ? (
+          <Text>Chargement des transactions...</Text>
+        ) : (
+          <View>
+            <Text style={styles.titre2}>Derniers paiements</Text>
+            <ScrollView>
+              {transactions.map((transaction) => (
+                <View
+                  style={styles.transaction}
+                  key={transaction.idTransaction}
+                >
+                  <Entypo name="arrow-bold-left" size={12} color="green" />
+                  <Text style={styles.montant}>{transaction.Montant} € </Text>
+                  <Text>
+                    {transaction.identifiantAuteur}{" "}
                     {moment(transaction.Date_creation).format("llll")}
                   </Text>
-                ))}
-              </ScrollView>
-            </View>
-          )
-        ) : null}
-        <Button title="D" onPress={pressAdminHandler} />
-        <Button title="Deconnexion" onPress={pressDeconnexionHandler} />
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -153,6 +173,47 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
+  },
+  container1: {
+    flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  container2: {
+    flex: 2,
+    justifyContent: "center",
+  },
+  titre: {
+    position: "absolute",
+    textAlign: "center",
+    width: "100%",
+    top: "20%",
+    marginBottom: 20,
+    fontSize: 20,
+  },
+  solde: {
+    textAlign: "center",
+    fontSize: 70,
+  },
+  container3: {
+    flex: 3,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  titre2: {
+    fontSize: 20,
+    textAlign: "center",
+  },
+  transaction: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 10,
+  },
+  montant: {
+    fontWeight: "bold",
   },
 });
 
