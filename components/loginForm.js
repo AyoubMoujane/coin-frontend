@@ -39,10 +39,10 @@ function LoginForm(props) {
   };
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.titleContainer}>
+      <View style={[styles.titleContainer, { flex: 1 }]}>
         <Text style={styles.title}>Le coin des gourmandises</Text>
       </View>
-      <View style={styles.container}>
+      <View style={[styles.container, { flex: 2 }]}>
         <View>
           <TextInput
             placeholder="Identifiant"
@@ -69,7 +69,9 @@ function LoginForm(props) {
         />
 
         {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
-        <Text onPress={oublieHandler}>Mot de passe oublié ?</Text>
+        <Text onPress={oublieHandler} style={{ marginTop: 10 }}>
+          Mot de passe oublié ?
+        </Text>
       </View>
     </View>
   );

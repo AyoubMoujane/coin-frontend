@@ -85,9 +85,7 @@ function paiementEcran({ utilisateur, navigation }) {
           onPress={transfertHandler}
         />
       )}
-      {flashMessage ? (
-        <Text style={styles.errorMessage}>{flashMessage}</Text>
-      ) : null}
+      {flashMessage ? <Text>{flashMessage}</Text> : null}
     </View>
   );
 }
