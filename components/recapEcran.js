@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { API_HOST } from "../environment/dev.env";
 import moment from "moment";
+import { Entypo } from "@expo/vector-icons";
 
 const mapStateToProps = (state) => {
   return {
@@ -85,26 +86,32 @@ function recapEcran({ utilisateur }) {
     return (
       <View style={styles.container}>
         <View style={styles.halfContainer}>
-          <Text>Transactions envoyees</Text>
+          <Text style={styles.title}>Transactions envoyees</Text>
           <ScrollView>
             {transactionsA.map((transaction) => (
-              <Text key={transaction.idTransaction}>
-                {transaction.identifiantAuteur} -- {transaction.Montant} --D{" "}
-                {transaction.identifiantDestinataire}{" "}
-                {moment(transaction.Date_creation).format("llll")}
-              </Text>
+              <View style={styles.transaction} key={transaction.idTransaction}>
+                <Entypo name="arrow-bold-right" size={12} color="red" />
+                <Text style={styles.montant}>{transaction.Montant} € </Text>
+                <Text>
+                  {transaction.identifiantDestinataire}{" "}
+                  {moment(transaction.Date_creation).format("llll")}
+                </Text>
+              </View>
             ))}
           </ScrollView>
         </View>
         <View style={styles.halfContainer}>
-          <Text>Transactions recues</Text>
+          <Text style={styles.title}>Transactions recues</Text>
           <ScrollView>
             {transactionsD.map((transaction) => (
-              <Text key={transaction.idTransaction}>
-                {transaction.identifiantAuteur} -- {transaction.Montant} --D{" "}
-                {transaction.identifiantDestinataire}{" "}
-                {moment(transaction.Date_creation).format("llll")}
-              </Text>
+              <View style={styles.transaction} key={transaction.idTransaction}>
+                <Entypo name="arrow-bold-left" size={12} color="green" />
+                <Text style={styles.montant}>{transaction.Montant} € </Text>
+                <Text>
+                  {transaction.identifiantDestinataire}{" "}
+                  {moment(transaction.Date_creation).format("llll")}
+                </Text>
+              </View>
             ))}
           </ScrollView>
         </View>
@@ -119,6 +126,18 @@ const styles = StyleSheet.create({
   },
   halfContainer: {
     flex: 1 / 2,
+  },
+  transaction: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 10,
+  },
+  title: {
+    fontSize: 20,
+    textAlign: "center",
+  },
+  montant: {
+    fontWeight: "bold",
   },
 });
 
