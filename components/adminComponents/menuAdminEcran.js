@@ -88,7 +88,7 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
   }
 
   const pressAdminHandler = () => {
-    navigation.navigate("gestionAdminEcran");
+    navigation.navigate("verifMdpEcran");
   };
 
   const getDernieresTransactions = (nombreDeTransactions) => {
