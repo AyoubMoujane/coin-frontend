@@ -17,6 +17,7 @@ function paiementEcran({ utilisateur, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
+  const [soldeActuel, setSoldeActuel] = useState(null);
 
   const montantInputHandler = (montant) => {
     setMontant(montant);
@@ -38,11 +39,36 @@ function paiementEcran({ utilisateur, navigation }) {
     return response.json();
   }
 
-  const transfertHandler = () => {
+  const transfertHandler = async () => {
     if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
     } else {
-      setIsLoading(true);
+      try {
+        const sa = await getSolde();
+        console.log(sa);
+        let newSolde = sa - montant;
+        let seuil = -utilisateur.Seuil;
+        console.log(seuil);
+        if (utilisateur.Seuil === null || newSolde >= seuil) {
+          await postTransfert();
+          setIsLoading(false);
+          setFlashMessage("Paiement enregistré");
+          setTimeout(function () {
+            navigation.navigate("menuUtilisateurEcran");
+          }, 1000);
+        } else {
+          setIsLoading(false);
+          setFlashMessage(`Seuil limite ${seuil}`);
+        }
+      } catch {
+        setIsLoading(false);
+        setFlashMessage("Erreur");
+      }
+    }
+  };
+
+  const postTransfert = async () => {
+    new Promise((resolve, reject) => {
       fetch(`http://${API_HOST}/transactions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -54,18 +80,29 @@ function paiementEcran({ utilisateur, navigation }) {
       })
         .then(handleErrors)
         .then((response) => {
-          setIsLoading(false);
-          setFlashMessage("Paiement effectué");
-          setIsPaymentSuccess(true);
-          setTimeout(function () {
-            navigation.navigate("menuUtilisateurEcran");
-          }, 1000);
+          resolve();
         })
         .catch((error) => {
-          // error.message is the error message
-          setIsLoading(false);
+          reject();
         });
-    }
+    });
+  };
+
+  const getSolde = () => {
+    return new Promise((resolve, reject) => {
+      fetch(`http://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then(handleErrors)
+        .then((response) => {
+          setSoldeActuel(response[0].solde);
+          resolve(response[0].solde);
+        })
+        .catch((error) => {
+          reject();
+        });
+    });
   };
 
   return (
