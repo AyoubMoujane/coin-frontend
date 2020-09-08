@@ -36,6 +36,7 @@ function offreEcran({ utilisateur, navigation }) {
   const [montant, setMontant] = useState("");
   const [isLoadingPaiement, setIsLoadingPaiement] = useState(false);
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
+  const [availableUtilisateurs, setAvailableUtilisateurs] = useState([]);
 
   // Code pour chargement des selecteurs
 
@@ -61,12 +62,26 @@ function offreEcran({ utilisateur, navigation }) {
         .then(handleErrors)
         .then((response) => {
           setUtilisateurs(response);
+          setAvailableUtilisateurs(response);
+          setSelectedUtilisateur(response[0].idUtilisateur);
           resolve();
         })
         .catch((error) => {
           reject(error);
         });
     });
+  };
+
+  const onChangeGroupe = (itemValue) => {
+    setSelectedGroupe(itemValue);
+    if (itemValue === 0) {
+      setAvailableUtilisateurs(...utilisateurs);
+    } else {
+      let newArr = utilisateurs.filter(
+        (utilisateur) => utilisateur.groupeFK === itemValue
+      );
+      setAvailableUtilisateurs(newArr);
+    }
   };
 
   const fetchGroupes = () => {
@@ -152,7 +167,7 @@ function offreEcran({ utilisateur, navigation }) {
         ) : (
           <Picker
             selectedValue={selectedGroupe}
-            onValueChange={(itemValue, key) => setSelectedGroupe(itemValue)}
+            onValueChange={(itemValue, key) => onChangeGroupe(itemValue)}
           >
             {groupes.map((groupe) => (
               <Picker.Item
@@ -171,25 +186,17 @@ function offreEcran({ utilisateur, navigation }) {
         ) : (
           <Picker
             selectedValue={selectedUtilisateur}
-            onValueChange={(itemValue, key) =>
-              setSelectedUtilisateur(itemValue)
-            }
+            onValueChange={(itemValue, key) => {
+              setSelectedUtilisateur(itemValue);
+            }}
           >
-            {utilisateurs.map((utilisateur, index) => {
-              return selectedGroupe === 0 ? (
-                <Picker.Item
-                  key={index}
-                  label={utilisateur.identifiant}
-                  value={utilisateur.idUtilisateur}
-                />
-              ) : utilisateur.groupeFK === selectedGroupe ? (
-                <Picker.Item
-                  key={index}
-                  label={utilisateur.identifiant}
-                  value={utilisateur.idUtilisateur}
-                />
-              ) : null;
-            })}
+            {availableUtilisateurs.map((utilisateur, index) => (
+              <Picker.Item
+                key={index}
+                label={utilisateur.identifiant}
+                value={utilisateur.idUtilisateur}
+              />
+            ))}
           </Picker>
         )}
       </View>
