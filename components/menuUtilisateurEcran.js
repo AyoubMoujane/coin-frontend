@@ -6,6 +6,7 @@ import {
   ScrollView,
   RefreshControl,
   StyleSheet,
+  // ImageBackground,
 } from "react-native";
 import { connect } from "react-redux";
 import { logOut } from "../redux/actions/authActions";
@@ -13,6 +14,8 @@ import { API_HOST } from "../environment/dev.env";
 import moment from "moment";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+
+// const image = { uri: "/Users/ayoubmoujane/Downloads/cerlce-bleu.png" };
 
 const mapStateToProps = (state) => {
   return {
@@ -113,19 +116,21 @@ function menuEcran({ navigation, utilisateur, logOut }) {
         <MaterialCommunityIcons
           name="account"
           size={36}
-          color="black"
+          color="#238afd"
           onPress={pressRecapHandler}
         />
         <AntDesign
           name="logout"
           size={36}
-          color="black"
+          color="#238afd"
           onPress={pressDeconnexionHandler}
         />
       </View>
-      <View style={styles.container2}>
+      <View style={[styles.container2]}>
+        {/* <ImageBackground source={image} style={styles.image}> */}
         <Text style={styles.titre}>Mon Compte </Text>
         <Text style={styles.solde}>{isLoading ? "..." : solde} €</Text>
+        {/* </ImageBackground> */}
       </View>
       <View style={styles.container3}>
         <Button title="Consommer" onPress={pressConsommerHandler} />
@@ -168,6 +173,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
   },
+  // image: {
+  //   flex: 1,
+  //   resizeMode: "stretch",
+  //   justifyContent: "center",
+  // },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(menuEcran);
