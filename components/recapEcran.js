@@ -86,7 +86,7 @@ function recapEcran({ utilisateur }) {
     return (
       <View style={styles.container}>
         <View style={styles.halfContainer}>
-          <Text style={styles.title}>Transactions envoyees</Text>
+          <Text style={styles.title}>Envoyés</Text>
           <ScrollView>
             {transactionsA.map((transaction) => (
               <View style={styles.transaction} key={transaction.idTransaction}>
@@ -101,7 +101,7 @@ function recapEcran({ utilisateur }) {
           </ScrollView>
         </View>
         <View style={styles.halfContainer}>
-          <Text style={styles.title}>Transactions recues</Text>
+          <Text style={styles.title}>Reçus</Text>
           <ScrollView>
             {transactionsD.map((transaction) => (
               <View style={styles.transaction} key={transaction.idTransaction}>
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: "center",
+    paddingVertical: 10,
   },
   montant: {
     fontWeight: "bold",
