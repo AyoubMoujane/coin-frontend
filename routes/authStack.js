@@ -7,9 +7,15 @@ import ChangerMdp from "../components/ChangerMdp/ChangerMdp";
 const ecrans = {
   connexionEcran: {
     screen: LoginForm,
+    navigationOptions: {
+      title: "Connexion",
+    },
   },
   oublieEcran: {
     screen: ChangerMdp,
+    navigationOptions: {
+      title: "Mot de passe oublié",
+    },
   },
 };
 

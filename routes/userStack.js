@@ -10,15 +10,27 @@ import menuAdmin from "../components/adminComponents/menuAdminEcran";
 const ecrans = {
   menuUtilisateurEcran: {
     screen: menuUtilisateurEcran,
+    navigationOptions: {
+      title: "Menu",
+    },
   },
   paiementEcran: {
     screen: paiementEcran,
+    navigationOptions: {
+      title: "Consommer",
+    },
   },
   offreEcran: {
     screen: offreEcran,
+    navigationOptions: {
+      title: "Offrir",
+    },
   },
   recapEcran: {
     screen: recapEcran,
+    navigationOptions: {
+      title: "Récapitulatif",
+    },
   },
 };
 

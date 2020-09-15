@@ -8,12 +8,21 @@ import verifMdpEcran from "../components/adminComponents/verifMdpEcran";
 const ecrans = {
   menuAdminEcran: {
     screen: menuAdminEcran,
+    navigationOptions: {
+      title: "Menu",
+    },
   },
   verifMdpEcran: {
     screen: verifMdpEcran,
+    navigationOptions: {
+      title: "Vérification",
+    },
   },
   gestionAdminEcran: {
     screen: gestionAdminEcran,
+    navigationOptions: {
+      title: "Gestion",
+    },
   },
 };
 
