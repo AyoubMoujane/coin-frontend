@@ -75,7 +75,7 @@ function offreEcran({ utilisateur, navigation }) {
   const onChangeGroupe = (itemValue) => {
     setSelectedGroupe(itemValue);
     if (itemValue === 0) {
-      setAvailableUtilisateurs(...utilisateurs);
+      setAvailableUtilisateurs(utilisateurs);
     } else {
       let newArr = utilisateurs.filter(
         (utilisateur) => utilisateur.groupeFK === itemValue
