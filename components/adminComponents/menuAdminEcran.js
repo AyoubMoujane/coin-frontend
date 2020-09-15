@@ -14,6 +14,7 @@ import { logOut } from "../../redux/actions/authActions";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const mapStateToProps = (state) => {
   return {
@@ -125,16 +126,17 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
       }
     >
       <View style={styles.container1}>
-        <MaterialCommunityIcons
-          name="account"
+        <FontAwesome5
+          name="users-cog"
           size={36}
-          color="black"
+          color="#238afd"
+          onPress={36}
           onPress={pressAdminHandler}
         />
         <AntDesign
           name="logout"
           size={36}
-          color="black"
+          color="#238afd"
           onPress={pressDeconnexionHandler}
         />
       </View>
@@ -206,6 +208,7 @@ const styles = StyleSheet.create({
   titre2: {
     fontSize: 20,
     textAlign: "center",
+    paddingBottom: 10,
   },
   transaction: {
     flexDirection: "row",
