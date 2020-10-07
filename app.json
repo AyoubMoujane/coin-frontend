@@ -1,22 +1,26 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
-    "version": "1.0.0",
+    "name": "Le coin des gourmandises",
+    "slug": "coin-des-gourmandises",
+    "version": "1.0.1",
+    "android": {
+      "package": "com.coindesgourmandises",
+      "versionCode": 7,
+      "permissions": []
+    },
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-coin.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo-coin.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.coindesgourmandises",
       "supportsTablet": true
     },
     "web": {
