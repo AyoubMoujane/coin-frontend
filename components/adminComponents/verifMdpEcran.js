@@ -5,7 +5,7 @@ import { API_HOST } from "../../environment/dev.env";
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth.token,
+    auth: state.auth,
   };
 };
 
@@ -34,14 +34,17 @@ function verifMdpEcran(props) {
   const verifHandler = () => {
     setIsLoading(true);
     setError("");
-    fetch(`http://${API_HOST}/utilisateurs/verifier_mdp/${3}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        identifiant: identifiant,
-        motDePasse: motDePasse,
-      }),
-    })
+    fetch(
+      `https://${API_HOST}/utilisateurs/verifier_mdp/${auth.user.idUtilisateur}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifiant: identifiant,
+          motDePasse: motDePasse,
+        }),
+      }
+    )
       .then(handleErrors)
       .then((response) => {
         setIsLoading(false);
