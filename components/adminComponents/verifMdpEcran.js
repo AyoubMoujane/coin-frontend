@@ -68,6 +68,7 @@ function verifMdpEcran(props) {
             style={styles.input}
             onChangeText={identifiantInputHandler}
             value={identifiant}
+            keyboardType="email-address"
           />
         </View>
         <View>
