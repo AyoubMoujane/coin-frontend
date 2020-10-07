@@ -89,6 +89,7 @@ function offreEcran({ utilisateur, navigation }) {
         (utilisateur) => utilisateur.groupeFK === itemValue
       );
       setAvailableUtilisateurs(newArr);
+      setSelectedUtilisateur(newArr[0].idUtilisateur);
     }
   };
 
@@ -113,6 +114,16 @@ function offreEcran({ utilisateur, navigation }) {
     });
   };
 
+  const remplace_virgule_par_point = (somme) => {
+    var stringResult = "";
+    for (let index = 0; index < somme.length; index++) {
+      somme[index] === ","
+        ? (stringResult = stringResult.concat("."))
+        : (stringResult = stringResult.concat(somme[index]));
+    }
+    return stringResult;
+  };
+
   // Code pour transfert d'argent
 
   const montantInputHandler = (montant) => {
@@ -122,7 +133,7 @@ function offreEcran({ utilisateur, navigation }) {
   const transfertHandler = () => {
     setIsLoadingPaiement(true);
     setFlashMessage("");
-    if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
+    if (!montant.toString().match(/^[0-9]{1,3}([,.][0-9]{1,2})?$/)) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
       setIsLoadingPaiement(false);
     } else {
@@ -130,7 +141,7 @@ function offreEcran({ utilisateur, navigation }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          Montant: montant,
+          Montant: remplace_virgule_par_point(montant),
           Auteur: utilisateur.idUtilisateur,
           Destinataire: selectedUtilisateur,
         }),

@@ -23,6 +23,16 @@ function paiementEcran({ utilisateur, navigation }) {
     setMontant(montant);
   };
 
+  const remplace_virgule_par_point = (somme) => {
+    var stringResult = "";
+    for (let index = 0; index < somme.length; index++) {
+      somme[index] === ","
+        ? (stringResult = stringResult.concat("."))
+        : (stringResult = stringResult.concat(somme[index]));
+    }
+    return stringResult;
+  };
+
   function handleErrors(response) {
     if (!response.ok) {
       switch (response.status) {
@@ -41,14 +51,16 @@ function paiementEcran({ utilisateur, navigation }) {
 
   const transfertHandler = async () => {
     setIsLoading(true);
-    if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
+    if (!montant.toString().match(/^[0-9]{1,3}([,.][0-9]{1,2})?$/)) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
       setIsLoading(false);
     } else {
       try {
         const sa = await getSolde();
         console.log(sa);
-        let newSolde = sa - montant;
+        let transformedMontant = remplace_virgule_par_point(montant);
+        let newSolde = sa - transformedMontant;
+        console.log(newSolde);
         let seuil = -utilisateur.Seuil;
         console.log(seuil);
         if (utilisateur.Seuil === null || newSolde >= seuil) {
@@ -76,7 +88,7 @@ function paiementEcran({ utilisateur, navigation }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          Montant: montant,
+          Montant: remplace_virgule_par_point(montant),
           Auteur: utilisateur.idUtilisateur,
           Destinataire: 3,
         }),
