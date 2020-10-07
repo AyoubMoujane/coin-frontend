@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Picker } from "@react-native-community/picker";
 import { connect } from "react-redux";
 import { API_HOST } from "../environment/dev.env";
@@ -55,7 +63,7 @@ function offreEcran({ utilisateur, navigation }) {
 
   const fetchUtilisateurs = () => {
     return new Promise((resolve, reject) => {
-      fetch(`http://${API_HOST}/utilisateurs`, {
+      fetch(`https://${API_HOST}/utilisateurs`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -86,7 +94,7 @@ function offreEcran({ utilisateur, navigation }) {
 
   const fetchGroupes = () => {
     return new Promise((resolve, reject) => {
-      fetch(`http://${API_HOST}/groupes`, {
+      fetch(`https://${API_HOST}/groupes`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -112,12 +120,13 @@ function offreEcran({ utilisateur, navigation }) {
   };
 
   const transfertHandler = () => {
+    setIsLoadingPaiement(true);
     setFlashMessage("");
     if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
+      setIsLoadingPaiement(false);
     } else {
-      setIsLoadingPaiement(true);
-      fetch(`http://${API_HOST}/transactions`, {
+      fetch(`https://${API_HOST}/transactions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -145,7 +154,7 @@ function offreEcran({ utilisateur, navigation }) {
     if (!response.ok) {
       switch (response.status) {
         case 401:
-          setFlashMessage("Seuil depasse");
+          setFlashMessage("Seuil depassé");
           throw new Error(401);
           break;
         case 500:
@@ -158,66 +167,73 @@ function offreEcran({ utilisateur, navigation }) {
   }
 
   return (
-    <View style={styles.container0}>
-      <View style={styles.container1}>
-        <Text style={styles.title}>Groupe</Text>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.container0}
+      scrollEnabled={false}
+    >
+      <ScrollView>
+        <View style={styles.container1}>
+          <Text style={styles.title}>Groupe</Text>
 
-        {isLoading ? (
-          <Text> Chargement des groupes... </Text>
-        ) : (
-          <Picker
-            selectedValue={selectedGroupe}
-            onValueChange={(itemValue, key) => onChangeGroupe(itemValue)}
-          >
-            {groupes.map((groupe) => (
-              <Picker.Item
-                key={groupe.idGroupe}
-                label={groupe.libelleGroupe}
-                value={groupe.idGroupe}
-              />
-            ))}
-          </Picker>
-        )}
+          {isLoading ? (
+            <Text> Chargement des groupes... </Text>
+          ) : (
+            <Picker
+              selectedValue={selectedGroupe}
+              onValueChange={(itemValue, key) => onChangeGroupe(itemValue)}
+            >
+              {groupes.map((groupe) => (
+                <Picker.Item
+                  key={groupe.idGroupe}
+                  label={groupe.libelleGroupe}
+                  value={groupe.idGroupe}
+                />
+              ))}
+            </Picker>
+          )}
 
-        <Text style={styles.title}>Utilisateur</Text>
+          <Text style={styles.title}>Utilisateur</Text>
 
-        {isLoading ? (
-          <Text> Chargement des utilisateurs... </Text>
-        ) : (
-          <Picker
-            selectedValue={selectedUtilisateur}
-            onValueChange={(itemValue, key) => {
-              setSelectedUtilisateur(itemValue);
-            }}
-          >
-            {availableUtilisateurs.map((utilisateur, index) => (
-              <Picker.Item
-                key={index}
-                label={utilisateur.identifiant}
-                value={utilisateur.idUtilisateur}
-              />
-            ))}
-          </Picker>
-        )}
-      </View>
-      <View style={styles.container2}>
-        <TextInput
-          style={styles.input}
-          keyboardType="numeric"
-          onChangeText={(montant) => montantInputHandler(montant)}
-        />
+          {isLoading ? (
+            <Text> Chargement des utilisateurs... </Text>
+          ) : (
+            <Picker
+              selectedValue={selectedUtilisateur}
+              onValueChange={(itemValue, key) => {
+                setSelectedUtilisateur(itemValue);
+              }}
+            >
+              {availableUtilisateurs.map((utilisateur, index) => (
+                <Picker.Item
+                  key={index}
+                  label={utilisateur.identifiant}
+                  value={utilisateur.idUtilisateur}
+                />
+              ))}
+            </Picker>
+          )}
+        </View>
+        <View style={styles.container2}>
+          <TextInput
+            style={styles.input}
+            keyboardType="decimal-pad"
+            returnKeyType="done"
+            onChangeText={(montant) => montantInputHandler(montant)}
+          />
 
-        <Button
-          title="Payer"
-          disabled={isLoading || isPaymentSuccess}
-          onPress={() => transfertHandler()}
-        />
+          <Button
+            title="Payer"
+            disabled={isLoading || isPaymentSuccess}
+            onPress={() => transfertHandler()}
+          />
 
-        {flashMessage ? (
-          <Text style={styles.flashMessage}>{flashMessage}</Text>
-        ) : null}
-      </View>
-    </View>
+          {flashMessage ? (
+            <Text style={styles.flashMessage}>{flashMessage}</Text>
+          ) : null}
+        </View>
+      </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 
