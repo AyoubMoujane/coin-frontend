@@ -20,7 +20,7 @@ function recapEcran({ utilisateur }) {
   const fetchTransactionA = () => {
     return new Promise((resolve, reject) => {
       fetch(
-        `http://${API_HOST}/transactions/auteur/${utilisateur.idUtilisateur}`,
+        `https://${API_HOST}/transactions/auteur/${utilisateur.idUtilisateur}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -45,7 +45,7 @@ function recapEcran({ utilisateur }) {
   const fetchTransactionD = () => {
     return new Promise((resolve, reject) => {
       fetch(
-        `http://${API_HOST}/transactions/destinataire/${utilisateur.idUtilisateur}`,
+        `https://${API_HOST}/transactions/destinataire/${utilisateur.idUtilisateur}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

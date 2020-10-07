@@ -16,7 +16,7 @@ function handleErrors(response) {
 export const tentativeTransfert = ({ montant, utilisateur, destinataire }) => {
   return (dispatch) => {
     dispatch(transfertRequest());
-    fetch(`http://${API_HOST}/transactions`, {
+    fetch(`https://${API_HOST}/transactions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

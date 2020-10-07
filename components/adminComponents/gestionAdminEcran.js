@@ -40,7 +40,7 @@ export default function gestionAdminEcran() {
 
   const fetchUtilisateurs = () => {
     return new Promise((resolve, reject) => {
-      fetch(`http://${API_HOST}/utilisateurs`, {
+      fetch(`https://${API_HOST}/utilisateurs`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -62,7 +62,7 @@ export default function gestionAdminEcran() {
 
   const fetchGroupes = () => {
     return new Promise((resolve, reject) => {
-      fetch(`http://${API_HOST}/groupes`, {
+      fetch(`https://${API_HOST}/groupes`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -88,7 +88,7 @@ export default function gestionAdminEcran() {
     newArr[index].flashMessage = "";
     setGroupes(newArr);
     const { idGroupe, Seuil } = groupes[index];
-    fetch(`http://${API_HOST}/groupes/seuil/${idGroupe}`, {
+    fetch(`https://${API_HOST}/groupes/seuil/${idGroupe}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -118,7 +118,7 @@ export default function gestionAdminEcran() {
     newArr[index].flashMessage = "";
     setUtilisateurs(newArr);
     const { idUtilisateur, solde } = utilisateurs[index];
-    fetch(`http://${API_HOST}/utilisateurs/solde/${idUtilisateur}`, {
+    fetch(`https://${API_HOST}/utilisateurs/solde/${idUtilisateur}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

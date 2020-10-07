@@ -46,7 +46,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
 
   const sendPassword = () => {
     setIsLoading(true);
-    fetch(`http://${API_HOST}/utilisateurs/changer_mdp`, {
+    fetch(`https://${API_HOST}/utilisateurs/changer_mdp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -86,11 +86,12 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
         value={mdp2}
         secureTextEntry={true}
       />
-
-      <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
-      {flashMessage ? (
-        <Text style={styles.errorMessage}>{flashMessage}</Text>
-      ) : null}
+      <View style={{ alignItems: "center" }}>
+        <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
+        {flashMessage ? (
+          <Text style={styles.errorMessage}>{flashMessage}</Text>
+        ) : null}
+      </View>
     </View>
   );
 }

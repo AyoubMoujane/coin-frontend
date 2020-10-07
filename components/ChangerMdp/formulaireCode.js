@@ -32,7 +32,7 @@ export default function formulaireCode({ setState, tokenMdp }) {
       setFlashMessage("Entrez le code de 6 chiffres envoyé par mail");
     } else {
       setIsLoading(true);
-      fetch(`http://${API_HOST}/utilisateurs/verifier_code`, {
+      fetch(`https://${API_HOST}/utilisateurs/verifier_code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -61,8 +61,9 @@ export default function formulaireCode({ setState, tokenMdp }) {
         onChangeText={codeInputHandler}
         value={code}
       />
-
-      <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
+      <View style={{ alignItems: "center" }}>
+        <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
+      </View>
 
       <Text style={styles.errorMessage}>{flashMessage}</Text>
     </View>

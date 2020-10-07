@@ -59,7 +59,7 @@ function menuEcran({ navigation, utilisateur, logOut }) {
 
   const getSolde = () => {
     setIsLoading(true);
-    fetch(`http://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
+    fetch(`https://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
