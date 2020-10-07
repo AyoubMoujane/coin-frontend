@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Button, Image } from "react-native";
 import { loginAttempt } from "../redux/actions/authActions";
 import { connect } from "react-redux";
 
@@ -40,7 +40,11 @@ function LoginForm(props) {
   return (
     <View style={{ flex: 1 }}>
       <View style={[styles.titleContainer, { flex: 1 }]}>
-        <Text style={styles.title}>Le coin des gourmandises</Text>
+        <Image
+          style={styles.image}
+          source={require("../assets/logo-coin-sans-fond.png")}
+          resizeMode="contain"
+        />
       </View>
       <View style={[styles.container, { flex: 2 }]}>
         <View>
@@ -49,6 +53,7 @@ function LoginForm(props) {
             style={styles.input}
             onChangeText={identifiantInputHandler}
             value={identifiant}
+            keyboardType="email-address"
           />
         </View>
         <View>
@@ -100,6 +105,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: "red",
   },
+  image: { flex: 1 },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
