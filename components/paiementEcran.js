@@ -40,8 +40,10 @@ function paiementEcran({ utilisateur, navigation }) {
   }
 
   const transfertHandler = async () => {
+    setIsLoading(true);
     if (!montant.toString().match(/^\d+(\.\d{1,2})?$/)) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
+      setIsLoading(false);
     } else {
       try {
         const sa = await getSolde();
@@ -51,6 +53,7 @@ function paiementEcran({ utilisateur, navigation }) {
         console.log(seuil);
         if (utilisateur.Seuil === null || newSolde >= seuil) {
           await postTransfert();
+          setIsPaymentSuccess(true);
           setIsLoading(false);
           setFlashMessage("Paiement enregistré");
           setTimeout(function () {
@@ -69,7 +72,7 @@ function paiementEcran({ utilisateur, navigation }) {
 
   const postTransfert = async () => {
     new Promise((resolve, reject) => {
-      fetch(`http://${API_HOST}/transactions`, {
+      fetch(`https://${API_HOST}/transactions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -90,7 +93,7 @@ function paiementEcran({ utilisateur, navigation }) {
 
   const getSolde = () => {
     return new Promise((resolve, reject) => {
-      fetch(`http://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
+      fetch(`https://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -109,7 +112,8 @@ function paiementEcran({ utilisateur, navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>Entrez le coût</Text>
       <TextInput
-        keyboardType="numeric"
+        keyboardType="decimal-pad"
+        returnKeyType="done"
         onChangeText={(montant) => montantInputHandler(montant)}
         style={styles.input}
       />
