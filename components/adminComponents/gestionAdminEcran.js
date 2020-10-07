@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  ScrollView,
+} from "react-native";
 import { API_HOST } from "../../environment/dev.env";
 
 function handleErrors(response) {
@@ -159,72 +166,76 @@ export default function gestionAdminEcran() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {isLoading ? (
-        <Text>Chargement...</Text>
-      ) : (
-        <View>
-          {groupes.map((groupe, index) => (
-            <View key={index}>
-              <View style={styles.rowContainer}>
-                <View style={styles.halfContainer}>
-                  <Text style={styles.groupe}>{groupe.libelleGroupe}</Text>
-                </View>
-                <View style={styles.halfContainer}>
-                  <Text>Seuil : </Text>
-                  <TextInput
-                    style={styles.input}
-                    value={groupe.Seuil ? groupe.Seuil.toString() : ""}
-                    onChangeText={(text) => updateSeuilChanged(index, text)}
-                    keyboardType="numeric"
-                  />
-                  <Button
-                    title="Modifier"
-                    onPress={() => patchSeuil(index)}
-                    disabled={groupe.isLoading}
-                  />
-                  <Text>
-                    {groupe.flashMessage ? groupe.flashMessage : null}
-                  </Text>
-                </View>
-              </View>
-              {utilisateurs.map((utilisateur, index) => {
-                return utilisateur.groupeFK === groupe.idGroupe ? (
-                  <View key={index} style={styles.rowContainer}>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.utilisateur}>
-                        {utilisateur.identifiant}
-                      </Text>
-                    </View>
-                    <View style={styles.twoThirdContainer}>
-                      <Text key={index}>Solde : </Text>
-                      <TextInput
-                        style={styles.input}
-                        value={utilisateur.solde.toString()}
-                        onChangeText={(text) => updateSoldeChanged(index, text)}
-                        keyboardType="numeric"
-                      />
-                      <Button
-                        title="Modifier"
-                        disabled={utilisateur.isLoading}
-                        onPress={() => {
-                          patchSolde(index);
-                        }}
-                      />
-                      <Text>
-                        {utilisateur.flashMessage
-                          ? utilisateur.flashMessage
-                          : null}
-                      </Text>
-                    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {isLoading ? (
+          <Text>Chargement...</Text>
+        ) : (
+          <View>
+            {groupes.map((groupe, index) => (
+              <View key={index}>
+                <View style={styles.rowContainer}>
+                  <View style={styles.halfContainer}>
+                    <Text style={styles.groupe}>{groupe.libelleGroupe}</Text>
                   </View>
-                ) : null;
-              })}
-            </View>
-          ))}
-        </View>
-      )}
-    </View>
+                  <View style={styles.halfContainer}>
+                    <Text>Seuil : </Text>
+                    <TextInput
+                      style={styles.Groupinput}
+                      value={groupe.Seuil ? groupe.Seuil.toString() : ""}
+                      onChangeText={(text) => updateSeuilChanged(index, text)}
+                      keyboardType="numeric"
+                    />
+                    <Button
+                      title="Modifier"
+                      onPress={() => patchSeuil(index)}
+                      disabled={groupe.isLoading}
+                    />
+                    <Text>
+                      {groupe.flashMessage ? groupe.flashMessage : null}
+                    </Text>
+                  </View>
+                </View>
+                {utilisateurs.map((utilisateur, index) => {
+                  return utilisateur.groupeFK === groupe.idGroupe ? (
+                    <View key={index} style={styles.rowContainer}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.utilisateur}>
+                          {utilisateur.identifiant}
+                        </Text>
+                      </View>
+                      <View style={styles.twoThirdContainer}>
+                        <Text key={index}>Solde : </Text>
+                        <TextInput
+                          style={styles.input}
+                          value={utilisateur.solde.toString()}
+                          onChangeText={(text) =>
+                            updateSoldeChanged(index, text)
+                          }
+                          keyboardType="numeric"
+                        />
+                        <Button
+                          title="Modifier"
+                          disabled={utilisateur.isLoading}
+                          onPress={() => {
+                            patchSolde(index);
+                          }}
+                        />
+                        <Text>
+                          {utilisateur.flashMessage
+                            ? utilisateur.flashMessage
+                            : null}
+                        </Text>
+                      </View>
+                    </View>
+                  ) : null;
+                })}
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -264,9 +275,18 @@ const styles = StyleSheet.create({
   input: {
     borderColor: "grey",
     borderWidth: 2,
+    width: 20,
+    borderRadius: 8,
+    paddingHorizontal: 5,
+    marginHorizontal: 5,
+    flex: 1 / 2,
+  },
+  Groupinput: {
+    borderColor: "grey",
+    borderWidth: 2,
     width: 40,
     borderRadius: 8,
     paddingHorizontal: 5,
-    marginRight: 5,
+    marginHorizontal: 5,
   },
 });
