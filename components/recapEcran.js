@@ -108,7 +108,7 @@ function recapEcran({ utilisateur }) {
                 <Entypo name="arrow-bold-left" size={12} color="green" />
                 <Text style={styles.montant}>{transaction.Montant} € </Text>
                 <Text>
-                  {transaction.identifiantDestinataire}{" "}
+                  {transaction.identifiantAuteur}{" "}
                   {moment(transaction.Date_creation).format("llll")}
                 </Text>
               </View>
