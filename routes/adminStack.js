@@ -4,6 +4,8 @@ import { createAppContainer } from "react-navigation";
 import menuAdminEcran from "../components/adminComponents/menuAdminEcran";
 import gestionAdminEcran from "../components/adminComponents/gestionAdminEcran";
 import verifMdpEcran from "../components/adminComponents/verifMdpEcran";
+import dernieresTransactionsAdminEcran from "../components/adminComponents/dernieresTransactionsAdminEcran";
+
 
 const ecrans = {
   menuAdminEcran: {
@@ -22,6 +24,12 @@ const ecrans = {
     screen: gestionAdminEcran,
     navigationOptions: {
       title: "Gestion",
+    },
+  },
+  dernieresTransactionsAdminEcran: {
+    screen: dernieresTransactionsAdminEcran,
+    navigationOptions: {
+      title: "Dernières transactions",
     },
   },
 };
