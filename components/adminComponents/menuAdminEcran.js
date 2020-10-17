@@ -47,7 +47,7 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
     setRefreshing(true);
     wait(500).then(() => {
       getSolde();
-      utilisateur.estAdmin ? getDernieresTransactions(30) : null;
+      utilisateur.estAdmin ? getDernieresTransactions(100) : null;
       setRefreshing(false);
     });
   }, []);
@@ -92,6 +92,10 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
     navigation.navigate("verifMdpEcran");
   };
 
+  const pressDernieresTransactionsHandler = () => {
+    navigation.navigate("dernieresTransactionsAdminEcran");
+  };
+
   const getDernieresTransactions = (nombreDeTransactions) => {
     return new Promise((resolve, reject) => {
       setIsLoadingTransactions(true);
@@ -130,9 +134,9 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
           name="users-cog"
           size={36}
           color="#238afd"
-          onPress={36}
           onPress={pressAdminHandler}
         />
+        <FontAwesome5 name="exchange-alt" size={36} color="#238afd" onPress={pressDernieresTransactionsHandler}/>
         <AntDesign
           name="logout"
           size={36}
