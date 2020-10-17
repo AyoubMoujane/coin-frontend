@@ -2,10 +2,10 @@
   "expo": {
     "name": "Le coin des gourmandises",
     "slug": "coin-des-gourmandises",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "android": {
       "package": "com.coindesgourmandises",
-      "versionCode": 7,
+      "versionCode": 8,
       "permissions": []
     },
     "orientation": "portrait",
