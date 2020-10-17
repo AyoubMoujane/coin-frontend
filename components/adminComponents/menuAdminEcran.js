@@ -59,7 +59,7 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
 
   const getSolde = () => {
     setIsLoading(true);
-    fetch(`https://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
+    fetch(`${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -96,7 +96,7 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
     return new Promise((resolve, reject) => {
       setIsLoadingTransactions(true);
       fetch(
-        `https://${API_HOST}/transactions/destinataire/${3}?nombreDeTransactions=${nombreDeTransactions}`,
+        `${API_HOST}/transactions/destinataire/${3}?nombreDeTransactions=${nombreDeTransactions}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

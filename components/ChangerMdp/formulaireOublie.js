@@ -33,7 +33,7 @@ export default function formulaireOublie({ setState, setToken }) {
       setFlashMessage("Entrez un identifiant valide (prenom.nom)");
     } else {
       setIsLoading(true);
-      fetch(`https://${API_HOST}/utilisateurs/oublie_mdp`, {
+      fetch(`${API_HOST}/utilisateurs/oublie_mdp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

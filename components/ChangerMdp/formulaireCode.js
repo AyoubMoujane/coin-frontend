@@ -32,7 +32,7 @@ export default function formulaireCode({ setState, tokenMdp }) {
       setFlashMessage("Entrez le code de 6 chiffres envoyé par mail");
     } else {
       setIsLoading(true);
-      fetch(`https://${API_HOST}/utilisateurs/verifier_code`, {
+      fetch(`${API_HOST}/utilisateurs/verifier_code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

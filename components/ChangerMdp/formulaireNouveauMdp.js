@@ -46,7 +46,7 @@ export default function formulaireOublie({ tokenMdp, navigation }) {
 
   const sendPassword = () => {
     setIsLoading(true);
-    fetch(`https://${API_HOST}/utilisateurs/changer_mdp`, {
+    fetch(`${API_HOST}/utilisateurs/changer_mdp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

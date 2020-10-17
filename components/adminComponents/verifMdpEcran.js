@@ -35,7 +35,7 @@ function verifMdpEcran(props) {
     setIsLoading(true);
     setError("");
     fetch(
-      `https://${API_HOST}/utilisateurs/verifier_mdp/${auth.user.idUtilisateur}`,
+      `${API_HOST}/utilisateurs/verifier_mdp/${auth.user.idUtilisateur}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

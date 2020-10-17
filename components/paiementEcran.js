@@ -84,7 +84,7 @@ function paiementEcran({ utilisateur, navigation }) {
 
   const postTransfert = async () => {
     new Promise((resolve, reject) => {
-      fetch(`https://${API_HOST}/transactions`, {
+      fetch(`${API_HOST}/transactions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

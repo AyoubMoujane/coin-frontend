@@ -19,7 +19,7 @@ export const loginAttempt = ({ identifiant, motDePasse }) => {
   return (dispatch) => {
     dispatch(loginRequest());
 
-    fetch(`https://${API_HOST}/utilisateurs/connexion`, {
+    fetch(`${API_HOST}/utilisateurs/connexion`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

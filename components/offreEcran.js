@@ -63,7 +63,7 @@ function offreEcran({ utilisateur, navigation }) {
 
   const fetchUtilisateurs = () => {
     return new Promise((resolve, reject) => {
-      fetch(`https://${API_HOST}/utilisateurs`, {
+      fetch(`${API_HOST}/utilisateurs`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -95,7 +95,7 @@ function offreEcran({ utilisateur, navigation }) {
 
   const fetchGroupes = () => {
     return new Promise((resolve, reject) => {
-      fetch(`https://${API_HOST}/groupes`, {
+      fetch(`${API_HOST}/groupes`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -137,7 +137,7 @@ function offreEcran({ utilisateur, navigation }) {
       setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
       setIsLoadingPaiement(false);
     } else {
-      fetch(`https://${API_HOST}/transactions`, {
+      fetch(`${API_HOST}/transactions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
