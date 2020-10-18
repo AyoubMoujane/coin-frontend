@@ -6,4 +6,7 @@ App store link : https://apps.apple.com/us/app/le-coin-des-gourmandises/id153365
 
 This app automates money transactions between members of an association.
 
+Tasks done for the frontend:
+
+
 We use react native to consume an API hosted on AWS using the lambda serverless service.
