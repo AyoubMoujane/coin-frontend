@@ -1,4 +1,5 @@
 # coin-frontend
+
 Front end for the app "Le coin des gourmandises" available in the app store and play store.
 
 Play store link : https://play.google.com/store/apps/details?id=com.coindesgourmandises <br/>
@@ -17,8 +18,8 @@ Things done during this project (front and back)<br/>
 
   Deploying scalable cluster using **Kubernetes** with **AWS EC2** but changed to **AWS Lambda** to reduce costs<br/>
 
-Creation of the frontend with **React Native** interacting with **API**<br/>
+  Creation of the frontend with **React Native** interacting with the **API**<br/>
 
-Creation of **DNS endpoint** to access database using **phpMyAdmin** through **AWS EC2**<br/>
+  Creation of **DNS endpoint** to access database using **phpMyAdmin** through **AWS EC2**<br/>
 
-Deployment and presentation of the app in Play Store and App Store (Available and named “Le coin des gourmandises”)<br/>
+  Deployment and presentation of the app in Play Store and App Store (Available and named “Le coin des gourmandises”)<br/>
