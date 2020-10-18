@@ -1,5 +1,6 @@
 # coin-frontend
 Front end for the app "Le coin des gourmandises" available in the app store and play store.
+
 Play store link : https://play.google.com/store/apps/details?id=com.coindesgourmandises
 App store link : https://apps.apple.com/us/app/le-coin-des-gourmandises/id1533654711
 
