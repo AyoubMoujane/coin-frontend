@@ -54,7 +54,7 @@ function menuAdminEcran({ navigation, utilisateur, logOut }) {
 
   useEffect(() => {
     getSolde();
-    utilisateur.estAdmin ? getDernieresTransactions(30) : null;
+    utilisateur.estAdmin ? getDernieresTransactions(100) : null;
   }, []);
 
   const getSolde = () => {
