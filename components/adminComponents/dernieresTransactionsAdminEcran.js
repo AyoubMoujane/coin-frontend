@@ -44,7 +44,7 @@ function recapEcran({ utilisateur }) {
 
   useEffect(() => {
     setIsLoaded(false);
-    Promise.all([fetchTransactions(50)])
+    Promise.all([fetchTransactions(100)])
       .then(() => {
         setIsLoading(true);
       })
