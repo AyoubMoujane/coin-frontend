@@ -105,7 +105,7 @@ function paiementEcran({ utilisateur, navigation }) {
 
   const getSolde = () => {
     return new Promise((resolve, reject) => {
-      fetch(`https://${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
+      fetch(`${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
