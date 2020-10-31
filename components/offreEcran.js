@@ -18,22 +18,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-function handleErrors(response) {
-  if (!response.ok) {
-    switch (response.status) {
-      case 401:
-        setFlashMessage("Token expire");
-        throw new Error(404);
-        break;
-      case 500:
-        setFlashMessage("Erreur serveur");
-        throw new Error(500);
-        break;
-    }
-  }
-  return response.json();
-}
-
 function offreEcran({ utilisateur, navigation }) {
   const [groupes, setGroupes] = useState([]);
   const [utilisateurs, setUtilisateurs] = useState([]);
@@ -61,6 +45,22 @@ function offreEcran({ utilisateur, navigation }) {
       });
   }, []);
 
+  function handleErrors(response) {
+  if (!response.ok) {
+    switch (response.status) {
+      case 401:
+          setFlashMessage("Seuil depassé");
+          throw new Error(401);
+          break;
+      case 500:
+        setFlashMessage("Erreur serveur");
+        throw new Error(500);
+        break;
+    }
+  }
+  return response.json();
+}
+
   const fetchUtilisateurs = () => {
     return new Promise((resolve, reject) => {
       fetch(`${API_HOST}/utilisateurs`, {
@@ -76,6 +76,22 @@ function offreEcran({ utilisateur, navigation }) {
         })
         .catch((error) => {
           reject(error);
+        });
+    });
+  };
+
+  const getSolde = () => {
+    return new Promise((resolve, reject) => {
+      fetch(`${API_HOST}/utilisateurs/${utilisateur.idUtilisateur}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then(handleErrors)
+        .then((response) => {
+          resolve(response[0].solde);
+        })
+        .catch((error) => {
+          reject();
         });
     });
   };
@@ -130,13 +146,8 @@ function offreEcran({ utilisateur, navigation }) {
     setMontant(montant);
   };
 
-  const transfertHandler = () => {
-    setIsLoadingPaiement(true);
-    setFlashMessage("");
-    if (!montant.toString().match(/^[0-9]{1,3}([,.][0-9]{1,2})?$/)) {
-      setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
-      setIsLoadingPaiement(false);
-    } else {
+  const postTransfert = async () => {
+    new Promise((resolve, reject) => {
       fetch(`${API_HOST}/transactions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -148,16 +159,44 @@ function offreEcran({ utilisateur, navigation }) {
       })
         .then(handleErrors)
         .then((response) => {
-          setIsLoadingPaiement(false);
-          setFlashMessage("Paiement effectué");
+          resolve();
+        })
+        .catch((error) => {
+          reject();
+        });
+    });
+  };
+
+  const transfertHandler = async () => {
+    setIsLoadingPaiement(true);
+    setFlashMessage("");
+    if (!montant.toString().match(/^[0-9]{1,3}([,.][0-9]{1,2})?$/)) {
+      setFlashMessage('Entrez un montant valide ex: "1" ou "0.50"');
+      setIsLoadingPaiement(false);
+    } else {
+      try {
+        const sa = await getSolde();
+        console.log(sa)
+        let transformedMontant = remplace_virgule_par_point(montant);
+        let newSolde = sa - transformedMontant;
+        let seuil = -utilisateur.Seuil;
+        if (utilisateur.Seuil === null || newSolde >= seuil) {
+          await postTransfert();
           setIsPaymentSuccess(true);
+          setIsLoadingPaiement(false);
+          setFlashMessage("Paiement enregistré");
           setTimeout(function () {
             navigation.navigate("menuUtilisateurEcran");
           }, 1000);
-        })
-        .catch((error) => {
+        } else {
           setIsLoadingPaiement(false);
-        });
+          setFlashMessage(`Seuil limite ${seuil}`);
+        }
+      } catch(e) {
+        setIsLoadingPaiement(false);
+        setFlashMessage("Erreur");
+        console.log(e)
+      }
     }
   };
 
@@ -235,7 +274,7 @@ function offreEcran({ utilisateur, navigation }) {
 
           <Button
             title="Payer"
-            disabled={isLoading || isPaymentSuccess}
+            disabled={isLoading || isPaymentSuccess || isLoadingPaiement}
             onPress={() => transfertHandler()}
           />
 
