@@ -17,7 +17,6 @@ function paiementEcran({ utilisateur, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
-  const [soldeActuel, setSoldeActuel] = useState(null);
 
   const montantInputHandler = (montant) => {
     setMontant(montant);
@@ -37,7 +36,7 @@ function paiementEcran({ utilisateur, navigation }) {
     if (!response.ok) {
       switch (response.status) {
         case 401:
-          setFlashMessage("Seuil depasse");
+          setFlashMessage("Seuil depassé");
           throw new Error(401);
           break;
         case 500:
@@ -57,12 +56,9 @@ function paiementEcran({ utilisateur, navigation }) {
     } else {
       try {
         const sa = await getSolde();
-        console.log(sa);
         let transformedMontant = remplace_virgule_par_point(montant);
         let newSolde = sa - transformedMontant;
-        console.log(newSolde);
         let seuil = -utilisateur.Seuil;
-        console.log(seuil);
         if (utilisateur.Seuil === null || newSolde >= seuil) {
           await postTransfert();
           setIsPaymentSuccess(true);
