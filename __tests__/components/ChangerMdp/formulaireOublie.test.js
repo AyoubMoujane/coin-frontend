@@ -48,7 +48,9 @@ describe('<formulaireOublie />', () => {
   });
 
   it("refuses invalid input", () => {
+    let input = findByTestAttr(component, "identifiant")
     let button = findByTestAttr(component, "boutonEnvoyer")
+    input.props().onChangeText("ayoubmoujane")
     button.props().onPress()
     let flashMessage = findByTestAttr(component, "flashMessage")
     expect(flashMessage.props().children).toEqual("Entrez un identifiant valide (prenom.nom)")
