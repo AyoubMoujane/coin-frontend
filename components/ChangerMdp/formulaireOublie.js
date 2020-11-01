@@ -56,15 +56,19 @@ export default function formulaireOublie({ setState, setToken }) {
     <View style={styles.container}>
       <Text style={styles.title}>Entrez votre identifiant</Text>
       <TextInput
+        data-testid="identifiant"
         placeholder="Identifiant"
         style={styles.input}
         onChangeText={identifiantInputHandler}
         value={identifiant}
       />
       <View style={{ alignItems: "center" }}>
-        <Button title="Envoyer" onPress={submitHandler} disabled={isLoading} />
+        <Button data-testid="boutonEnvoyer" title="Envoyer" onPress={submitHandler} disabled={isLoading} />
       </View>
-      <Text style={styles.errorMessage}>{flashMessage}</Text>
+      <Text
+        data-testid="flashMessage"
+        style={styles.errorMessage}
+      >{flashMessage}</Text>
     </View>
   );
 }
