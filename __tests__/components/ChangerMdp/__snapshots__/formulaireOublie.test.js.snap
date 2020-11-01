@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<formulaireOublie /> FormulaireOublie renders properly 1`] = `
+<View
+  style={Object {}}
+>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 30,
+        "marginBottom": 20,
+        "paddingTop": "40%",
+        "textAlign": "center",
+      }
+    }
+  >
+    Entrez votre identifiant
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="Identifiant"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "alignSelf": "center",
+        "borderColor": "grey",
+        "borderRadius": 8,
+        "borderWidth": 2,
+        "height": 30,
+        "marginBottom": 10,
+        "paddingHorizontal": 10,
+        "width": 200,
+      }
+    }
+    underlineColorAndroid="transparent"
+    value="identifiant"
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+      }
+    }
+  >
+    <View
+      accessibilityRole="button"
+      accessibilityState={Object {}}
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          disabled={false}
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "margin": 8,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          Envoyer
+        </Text>
+      </View>
+    </View>
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "textAlign": "center",
+      }
+    }
+  >
+    
+  </Text>
+</View>
+`;
