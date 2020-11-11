@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>URL</key>
-	<string>https://github.com/AyoubMoujane/coin-frontend/blob/master/README.md</string>
-</dict>
-</plist>
-=======
-# coin-frontend
-
 Front end for the app "Le coin des gourmandises" available in the app store and play store.
 
 Play store link : https://play.google.com/store/apps/details?id=com.coindesgourmandises <br/>
@@ -33,4 +21,3 @@ Things done during this project (front and back)<br/>
   Creation of **DNS endpoint** to access database using **phpMyAdmin** through **AWS EC2**<br/>
 
   Deployment and presentation of the app in Play Store and App Store (Available and named “Le coin des gourmandises”)<br/>
->>>>>>> 0d953e5214cf4466506a66e76afe114aaeb190ba
