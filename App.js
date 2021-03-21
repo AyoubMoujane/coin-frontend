@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import Constants from "expo-constants";
 import { Asset } from "expo-asset";
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 
 import AuthLoading from "./components/authLoading";
 

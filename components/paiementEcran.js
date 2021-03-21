@@ -55,12 +55,21 @@ function paiementEcran({ utilisateur, navigation }) {
       setIsLoading(false);
     } else {
       try {
+        console.log(1)
         const sa = await getSolde();
+        console.log(1)
+
         let transformedMontant = remplace_virgule_par_point(montant);
+        console.log(1)
+
         let newSolde = sa - transformedMontant;
+        console.log(1)
+
         let seuil = -utilisateur.Seuil;
         if (utilisateur.Seuil === null || newSolde >= seuil) {
+          console.log(1)
           await postTransfert();
+          console.log(2)
           setIsPaymentSuccess(true);
           setIsLoading(false);
           setFlashMessage("Paiement enregistré");
@@ -107,10 +116,11 @@ function paiementEcran({ utilisateur, navigation }) {
       })
         .then(handleErrors)
         .then((response) => {
-          setSoldeActuel(response[0].solde);
+          // setSoldeActuel(response[0].solde);
           resolve(response[0].solde);
         })
         .catch((error) => {
+          console.log(error)
           reject();
         });
     });

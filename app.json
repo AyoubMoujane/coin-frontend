@@ -5,7 +5,7 @@
     "version": "1.0.6",
     "android": {
       "package": "com.coindesgourmandises",
-      "versionCode": 12,
+      "versionCode": 14,
       "permissions": []
     },
     "orientation": "portrait",
@@ -18,7 +18,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.coindesgourmandises",
       "supportsTablet": true
